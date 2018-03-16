@@ -1,0 +1,45 @@
+{
+  "name": "@henderea/static-site-builder",
+  "version": "1.0.1",
+  "description": "A static site builder",
+  "main": "index.js",
+  "repository": "henderea/static-site-builder.git",
+  "author": "Eric Henderson <henderea@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6"
+  },
+  "files": [
+    "bin",
+    "config",
+    "scripts",
+    "utils",
+    "registerServiceWorker.js"
+  ],
+  "bin": {
+    "static-site-builder": "./bin/static-site-builder.js"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "chalk": "^2.3.2",
+    "cross-spawn": "^6.0.5",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.18.2",
+    "file-loader": "^1.1.11",
+    "filesize": "^3.6.0",
+    "find-pkg": "^1.0.0",
+    "globby": "^8.0.1",
+    "gzip-size": "^4.1.0",
+    "mini-css-extract-plugin": "^0.2.0",
+    "node-sass": "^4.7.2",
+    "recursive-readdir": "^2.2.2",
+    "sass-loader": "^6.0.7",
+    "strip-ansi": "^4.0.0",
+    "sw-precache-webpack-plugin": "^0.11.5",
+    "thread-loader": "^1.1.5",
+    "webpack": "^4.1.1",
+    "webpack-manifest-plugin": "^2.0.0-rc.2"
+  }
+}
