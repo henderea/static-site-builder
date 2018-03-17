@@ -96,20 +96,12 @@ module.exports = {
                         ]
                     },
                     {
-                        test: /\.hbs$/,
-                        loader: "handlebars"
-                    },
-                    {
-                        test: /\.ejs$/,
-                        loader: "ejs"
-                    },
-                    {
                         loader: require.resolve('file-loader'),
                         // Exclude `js` files to keep "css" loader working as it injects
                         // it's runtime that would otherwise processed through "file" loader.
                         // Also exclude `html` and `json` extensions so they get processed
                         // by webpack's internal loaders.
-                        exclude: [/\.js$/, /\.html$/, /\.json$/],
+                        exclude: [/\.js$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/],
                         options: {
                             name: '[name].[ext]'
                         }
