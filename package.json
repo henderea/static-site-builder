@@ -23,7 +23,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "chalk": "^2.3.2",
+    "chalk": "^2.4.0",
     "cross-spawn": "^6.0.5",
     "css-loader": "^0.28.11",
     "ejs": "^2.5.8",
