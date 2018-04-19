@@ -35,7 +35,7 @@ if(!checkRequiredFiles([paths.appTemplate, paths.appIndexJs])) {
     process.exit(1);
 }
 
-Promise.resolve(measureFileSizesBeforeBuild(paths.appDist))
+measureFileSizesBeforeBuild(paths.appDist)
     .then(previousFileSizes => {
         // Remove all content but keep the directory so that
         // if you're in it, you don't end up in Trash
