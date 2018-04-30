@@ -20,10 +20,10 @@
     "static-site-builder": "./bin/static-site-builder.js"
   },
   "dependencies": {
-    "babel-core": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "chalk": "^2.4.0",
+    "chalk": "^2.4.1",
     "cross-spawn": "^6.0.5",
     "css-loader": "^0.28.11",
     "ejs": "^2.5.9",
@@ -36,7 +36,7 @@
     "handlebars": "^4.0.11",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.0",
-    "node-sass": "^4.8.3",
+    "node-sass": "^4.9.0",
     "recursive-readdir": "^2.2.2",
     "sass-loader": "^7.0.1",
     "strip-ansi": "^4.0.0",
@@ -44,6 +44,6 @@
     "sw-precache-webpack-plugin": "^0.11.5",
     "thread-loader": "^1.1.5",
     "webpack": "^4.6.0",
-    "webpack-manifest-plugin": "^2.0.1"
+    "webpack-manifest-plugin": "^2.0.2"
   }
 }
