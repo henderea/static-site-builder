@@ -43,7 +43,7 @@
     "style-loader": "^0.21.0",
     "sw-precache-webpack-plugin": "^0.11.5",
     "thread-loader": "^1.1.5",
-    "webpack": "^4.6.0",
+    "webpack": "^4.7.0",
     "webpack-manifest-plugin": "^2.0.2"
   }
 }
