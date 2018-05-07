@@ -26,7 +26,7 @@
     "chalk": "^2.4.1",
     "cross-spawn": "^6.0.5",
     "css-loader": "^0.28.11",
-    "ejs": "^2.5.9",
+    "ejs": "^2.6.1",
     "eslint": "^4.19.1",
     "file-loader": "^1.1.11",
     "filesize": "^3.6.1",
@@ -43,7 +43,7 @@
     "style-loader": "^0.21.0",
     "sw-precache-webpack-plugin": "^0.11.5",
     "thread-loader": "^1.1.5",
-    "webpack": "^4.7.0",
+    "webpack": "^4.8.0",
     "webpack-manifest-plugin": "^2.0.2"
   }
 }
