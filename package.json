@@ -27,7 +27,7 @@
     "cross-spawn": "^6.0.5",
     "css-loader": "^1.0.0",
     "ejs": "^2.6.1",
-    "eslint": "^5.1.0",
+    "eslint": "^5.2.0",
     "file-loader": "^1.1.11",
     "filesize": "^3.6.1",
     "find-pkg": "^2.0.0",
@@ -43,7 +43,7 @@
     "style-loader": "^0.21.0",
     "sw-precache-webpack-plugin": "^0.11.5",
     "thread-loader": "^1.1.5",
-    "webpack": "^4.16.1",
+    "webpack": "^4.16.2",
     "webpack-manifest-plugin": "^2.0.3"
   }
 }
