@@ -28,7 +28,7 @@
     "css-loader": "^1.0.0",
     "ejs": "^2.6.1",
     "eslint": "^5.4.0",
-    "file-loader": "^1.1.11",
+    "file-loader": "^2.0.0",
     "filesize": "^3.6.1",
     "find-pkg": "^2.0.0",
     "globby": "^8.0.1",
@@ -43,7 +43,7 @@
     "style-loader": "^0.22.1",
     "sw-precache-webpack-plugin": "^0.11.5",
     "thread-loader": "^1.2.0",
-    "webpack": "^4.17.0",
+    "webpack": "^4.17.1",
     "webpack-manifest-plugin": "^2.0.3"
   }
 }
