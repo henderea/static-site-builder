@@ -28,6 +28,7 @@ module.exports = {
     entry: {
         index: paths.appIndexJs
     },
+    devtool: 'source-map',
     output: {
         pathinfo: true,
         path: paths.appDist,
