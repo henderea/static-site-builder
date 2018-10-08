@@ -41,7 +41,7 @@
     "recursive-readdir": "^2.2.2",
     "sass-loader": "^7.1.0",
     "strip-ansi": "^5.0.0",
-    "style-loader": "^0.23.0",
+    "style-loader": "^0.23.1",
     "sw-precache-webpack-plugin": "^0.11.5",
     "thread-loader": "^1.2.0",
     "webpack": "^4.20.2",
