@@ -20,7 +20,7 @@
     "static-site-builder": "./bin/static-site-builder.js"
   },
   "dependencies": {
-    "@babel/core": "^7.1.2",
+    "@babel/core": "^7.1.5",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.4",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
@@ -44,7 +44,7 @@
     "style-loader": "^0.23.1",
     "sw-precache-webpack-plugin": "^0.11.5",
     "thread-loader": "^1.2.0",
-    "webpack": "^4.25.0",
+    "webpack": "^4.25.1",
     "webpack-manifest-plugin": "^2.0.4"
   }
 }
