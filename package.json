@@ -28,7 +28,7 @@
     "cross-spawn": "^6.0.5",
     "css-loader": "^1.0.1",
     "ejs": "^2.6.1",
-    "eslint": "^5.8.0",
+    "eslint": "^5.9.0",
     "file-loader": "^2.0.0",
     "filesize": "^3.6.1",
     "find-pkg": "^2.0.0",
