@@ -23,7 +23,7 @@
     "@babel/core": "^7.2.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.5",
-    "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "case-sensitive-paths-webpack-plugin": "^2.2.0",
     "chalk": "^2.4.2",
     "cross-spawn": "^6.0.5",
     "css-loader": "^2.1.0",
@@ -43,7 +43,7 @@
     "strip-ansi": "^5.0.0",
     "style-loader": "^0.23.1",
     "sw-precache-webpack-plugin": "^0.11.5",
-    "thread-loader": "^2.1.1",
+    "thread-loader": "^2.1.2",
     "webpack": "^4.29.0",
     "webpack-manifest-plugin": "^2.0.4"
   }
