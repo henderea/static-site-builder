@@ -169,6 +169,7 @@ module.exports = {
             // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#service-worker-considerations
             navigateFallback: publicUrl + '/index.html',
             navigateFallbackWhitelist: [/^(?!\/_).*/],
+            maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
         }),
     ],
 };
