@@ -20,7 +20,7 @@
     "static-site-builder": "./bin/static-site-builder.js"
   },
   "dependencies": {
-    "@babel/core": "^7.3.3",
+    "@babel/core": "^7.3.4",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.5",
     "case-sensitive-paths-webpack-plugin": "^2.2.0",
