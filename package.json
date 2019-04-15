@@ -33,8 +33,8 @@
     "filesize": "^4.1.2",
     "find-pkg": "^2.0.0",
     "globby": "^9.2.0",
-    "gzip-size": "^5.0.0",
-    "handlebars": "^4.1.1",
+    "gzip-size": "^5.1.0",
+    "handlebars": "^4.1.2",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.6.0",
     "node-sass": "^4.11.0",
@@ -43,7 +43,7 @@
     "strip-ansi": "^5.2.0",
     "style-loader": "^0.23.1",
     "thread-loader": "^2.1.2",
-    "webpack": "^4.29.6",
+    "webpack": "^4.30.0",
     "webpack-manifest-plugin": "^2.0.4",
     "workbox-webpack-plugin": "^4.2.0"
   }
