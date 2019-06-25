@@ -46,8 +46,5 @@
     "webpack": "^4.33.0",
     "webpack-manifest-plugin": "^2.0.4",
     "workbox-webpack-plugin": "^4.3.1"
-  },
-  "installConfig": {
-    "pnp": true
   }
 }
