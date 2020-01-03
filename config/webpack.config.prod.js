@@ -5,6 +5,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const {GenerateSW} = require('workbox-webpack-plugin');
+const postCssEnv = require('postcss-preset-env');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
@@ -104,9 +105,21 @@ module.exports = {
                                 }
                             },
                             {
+                                loader: 'postcss-loader',
+                                options: {
+                                    ident: 'postcss',
+                                    plugins: (loader) => [
+                                        postCssEnv()
+                                    ],
+                                    sourceMap: true
+                                }
+                            },
+                            {
                                 loader: 'sass-loader',
                                 options: {
-                                    outputStyle: 'compressed',
+                                    sassOptions: {
+                                        outputStyle: 'compressed'
+                                    },
                                     sourceMap: true
                                 }
                             }
