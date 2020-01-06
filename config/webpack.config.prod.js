@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const {GenerateSW} = require('workbox-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const postCssEnv = require('postcss-preset-env');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
@@ -23,6 +24,39 @@ const publicUrl = publicPath.slice(0, -1);
 const env = getClientEnvironment(publicUrl);
 
 const cssFilename = '[name].css';
+
+const plugins = [
+    new webpack.DefinePlugin(env.stringified),
+    new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: paths.appTemplate,
+        inject: 'head',
+        minify: { collapseWhitespace: true }
+    }),
+    new CaseSensitivePathsPlugin(),
+    new MiniCssExtractPlugin({
+        filename: cssFilename
+    }),
+    new ManifestPlugin({
+        fileName: 'asset-manifest.json',
+        publicPath: publicPath
+    }),
+    new GenerateSW({
+        // Don't precache sourcemaps (they're large) and build asset manifest:
+        exclude: [/\.map$/, /asset-manifest\.json$/],
+        // `navigateFallback` and `navigateFallbackWhitelist` are disabled by default; see
+        // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#service-worker-considerations
+        navigateFallback: publicUrl + '/index.html',
+        navigateFallbackBlacklist: [/^\/_/],
+    }),
+];
+
+const rawMomentLocales = require(paths.appPackageJson).momentLocales;
+if(rawMomentLocales === '') {
+    plugins.push(new MomentLocalesPlugin());
+} else if(rawMomentLocales) {
+    plugins.push(new MomentLocalesPlugin({ localesToKeep: rawMomentLocales.split(/\s*,\s*/g) }));
+}
 
 module.exports = {
     mode: 'production',
@@ -140,29 +174,5 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new webpack.DefinePlugin(env.stringified),
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: paths.appTemplate,
-            inject: 'head',
-            minify: { collapseWhitespace: true }
-        }),
-        new CaseSensitivePathsPlugin(),
-        new MiniCssExtractPlugin({
-            filename: cssFilename
-        }),
-        new ManifestPlugin({
-            fileName: 'asset-manifest.json',
-            publicPath: publicPath
-        }),
-        new GenerateSW({
-            // Don't precache sourcemaps (they're large) and build asset manifest:
-            exclude: [/\.map$/, /asset-manifest\.json$/],
-            // `navigateFallback` and `navigateFallbackWhitelist` are disabled by default; see
-            // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#service-worker-considerations
-            navigateFallback: publicUrl + '/index.html',
-            navigateFallbackBlacklist: [/^\/_/],
-        }),
-    ],
+    plugins,
 };
