@@ -129,7 +129,7 @@ module.exports = {
             // `navigateFallback` and `navigateFallbackWhitelist` are disabled by default; see
             // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#service-worker-considerations
             navigateFallback: publicUrl + '/index.html',
-            navigateFallbackBlacklist: [/^\/_/],
+            navigateFallbackDenylist: [/^\/_/],
         }),
     ],
     performance: {
