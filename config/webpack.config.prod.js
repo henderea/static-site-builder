@@ -9,6 +9,7 @@ const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const postCssEnv = require('postcss-preset-env');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+const _ = require('lodash');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -51,11 +52,52 @@ const plugins = [
     }),
 ];
 
-const rawMomentLocales = require(paths.appPackageJson).momentLocales;
+const packageJson = require(paths.appPackageJson);
+const config = packageJson.staticSiteBuilderConfig;
+const rawMomentLocales = config && config.momentLocales;
 if(rawMomentLocales === '') {
     plugins.push(new MomentLocalesPlugin());
 } else if(rawMomentLocales) {
     plugins.push(new MomentLocalesPlugin({ localesToKeep: rawMomentLocales.split(/\s*,\s*/g) }));
+}
+
+const performance = {};
+
+if(config && (config.sizeHints === false || config.sizeHints == 'warning' || config.sizeHints == 'error')) {
+    performance.hints = config.sizeHints;
+}
+
+const getSizeValue = val => {
+    if(_.isNil(val) || val === false) { return null; }
+    if(_.isNumber(val) && !_.isNaN(val)) { return Math.round(val); }
+    if(_.isString(val)) {
+        let m = val.match(/^(\d+(?:\.\d+)?|\.\d+)([bkmg])?$/i);
+        if(m) {
+            let num = parseFloat(m[1]);
+            if(!_.isNaN(num)) {
+                let unit = m[2];
+                if(!unit || unit === '') { unit = 'b'; }
+                unit = unit.toLowerCase();
+                let unitIndex = 'bkmg'.indexOf(unit);
+                if(unitIndex >= 0 || unitIndex <= 3) {
+                    return Math.round(num * Math.pow(1024, unitIndex));
+                }
+            }
+        }
+    }
+    return null;
+}
+
+let maxEntrypointSize = getSizeValue(config && config.maxEntrypointSize);
+
+if(config && maxEntrypointSize) {
+    performance.maxEntrypointSize = maxEntrypointSize;
+}
+
+let maxAssetSize = getSizeValue(config && config.maxAssetSize);
+
+if(config && maxAssetSize) {
+    performance.maxAssetSize = maxAssetSize;
 }
 
 module.exports = {
@@ -175,4 +217,5 @@ module.exports = {
         ]
     },
     plugins,
+    performance
 };

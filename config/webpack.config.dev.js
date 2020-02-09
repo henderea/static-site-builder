@@ -123,14 +123,6 @@ module.exports = {
             fileName: 'asset-manifest.json',
             publicPath: publicPath
         }),
-        new GenerateSW({
-            // Don't precache sourcemaps (they're large) and build asset manifest:
-            exclude: [/\.map$/, /asset-manifest\.json$/],
-            // `navigateFallback` and `navigateFallbackWhitelist` are disabled by default; see
-            // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#service-worker-considerations
-            navigateFallback: publicUrl + '/index.html',
-            navigateFallbackDenylist: [/^\/_/],
-        }),
     ],
     performance: {
         hints: false,
