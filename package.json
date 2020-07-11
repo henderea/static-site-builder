@@ -1,6 +1,6 @@
 {
   "name": "@henderea/static-site-builder",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "A static site builder",
   "main": "index.js",
   "repository": "henderea/static-site-builder.git",
