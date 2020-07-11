@@ -70,6 +70,10 @@ if(ssbConfig.env && _.isPlainObject(ssbConfig.env)) {
     env = { raw, stringified };
 }
 
+if(ssbConfig.additionalManifestEntries && _.isArray(ssbConfig.additionalManifestEntries)) {
+    additionalManifestEntries.push(...ssbConfig.additionalManifestEntries);
+}
+
 const plugins = [
     new webpack.DefinePlugin(env.stringified),
     new HtmlWebpackPlugin({
