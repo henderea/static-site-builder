@@ -31,7 +31,7 @@ const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
-if(!checkRequiredFiles([paths.appTemplate, paths.appIndexJs])) {
+if(!checkRequiredFiles([paths.appTemplate, paths.appIndex])) {
     process.exit(1);
 }
 
