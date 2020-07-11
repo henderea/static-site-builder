@@ -16,7 +16,7 @@ const findMonorepo = require('../utils/workspaceUtils').findMonorepo;
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
-const resolveTemplate = (...paths) => {
+const resolveAppFirst = (...paths) => {
     return resolveApp(paths.find((e) => fs.existsSync(resolveApp(e))) || paths[0]);
 }
 
@@ -55,11 +55,12 @@ module.exports = {
     dotenv: resolveApp('.env'),
     ssbConfig: resolveApp('static-site-builder.config.js'),
     publicDir: resolveApp('public'),
+    tsConfig: resolveApp('tsconfig.json'),
     appPath: resolveApp('.'),
     appBuild: resolveApp('build'),
     appDist: resolveApp('dist'),
-    appTemplate: resolveTemplate('src/index.html', 'src/index.ejs', 'src/index.hbs'),
-    appIndexJs: resolveApp('src/index.js'),
+    appTemplate: resolveAppFirst('src/index.html', 'src/index.ejs', 'src/index.hbs'),
+    appIndex: resolveAppFirst('src/index.js', 'src/index.ts'),
     appPackageJson: resolveApp('package.json'),
     appSrc: resolveApp('src'),
     testsSetup: resolveApp('src/setupTests.js'),
@@ -69,7 +70,9 @@ module.exports = {
     ownPath: resolveOwn('.'),
     ownNodeModules: resolveOwn('node_modules'),
     resolveApp,
-    resolveOwn
+    resolveAppFirst,
+    resolveOwn,
+    ensureSlash
 };
 
 

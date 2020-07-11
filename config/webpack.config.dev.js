@@ -90,10 +90,22 @@ if(copyPatterns.length > 0) {
     }));
 }
 
+let tsConfigPath = paths.tsConfig;
+
+if(ssbConfig.tsConfigPath && fs.existsSync(paths.resolveApp(ssbConfig.tsConfigPath))) {
+    tsConfigPath = paths.resolveApp(ssbConfig.tsConfigPath);
+}
+
+let appIndex = paths.appIndex;
+
+if(ssbConfig.appIndex && fs.existsSync(paths.resolveApp(appIndex))) {
+    appIndex = paths.resolveApp(appIndex);
+}
+
 module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
     mode: 'development',
     entry: {
-        index: paths.appIndexJs
+        index: appIndex
     },
     devtool: 'source-map',
     output: {
@@ -114,6 +126,19 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
             { parser: { requireEnsure: false } },
             {
                 oneOf: [
+                    {
+                        test: /\.ts$/,
+                        exclude: [/[/\\\\]node_modules[/\\\\]/],
+                        use: [
+                            require.resolve('thread-loader'),
+                            {
+                                loader: require.resolve('ts-loader'),
+                                options: {
+                                    configFile: tsConfigPath
+                                },
+                            },
+                        ]
+                    },
                     {
                         test: /\.js$/,
                         exclude: [/[/\\\\]node_modules[/\\\\]/],
@@ -168,10 +193,10 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
                     {
                         loader: require.resolve('file-loader'),
                         // Exclude `js` files to keep "css" loader working as it injects
-                        // it's runtime that would otherwise processed through "file" loader.
+                        // its runtime that would otherwise processed through "file" loader.
                         // Also exclude `html` and `json` extensions so they get processed
                         // by webpack's internal loaders.
-                        exclude: [/\.js$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/],
+                        exclude: [/\.js$/, /\.ts$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/],
                         options: {
                             name: '[name].[ext]'
                         }

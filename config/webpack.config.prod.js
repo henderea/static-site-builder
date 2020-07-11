@@ -12,18 +12,19 @@ const postCssEnv = require('postcss-preset-env');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const _ = require('lodash');
-const crypto = require('crypto')
+const crypto = require('crypto');
+const { findIndex } = require('lodash');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
-const publicPath = paths.servedPath;
+let publicPath = paths.servedPath;
 // Some apps do not use client-side routing with pushState.
 // For these, "homepage" can be set to "." to enable relative asset paths.
 const shouldUseRelativeAssetPaths = publicPath === './';
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
-const publicUrl = publicPath.slice(0, -1);
+let publicUrl = publicPath.slice(0, -1);
 
 let env = getClientEnvironment(publicUrl);
 
@@ -119,6 +120,18 @@ if(copyPatterns.length > 0) {
     }));
 }
 
+let tsConfigPath = paths.tsConfig;
+
+if(ssbConfig.tsConfigPath && fs.existsSync(paths.resolveApp(ssbConfig.tsConfigPath))) {
+    tsConfigPath = paths.resolveApp(ssbConfig.tsConfigPath);
+}
+
+let appIndex = paths.appIndex;
+
+if(ssbConfig.appIndex && fs.existsSync(paths.resolveApp(appIndex))) {
+    appIndex = paths.resolveApp(appIndex);
+}
+
 const packageJson = require(paths.appPackageJson);
 const config = _.extend({}, packageJson.staticSiteBuilderConfig || {}, ssbConfig);
 const rawMomentLocales = config && config.momentLocales;
@@ -170,7 +183,7 @@ if(config && maxAssetSize) {
 module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
     mode: 'production',
     entry: {
-        index: paths.appIndexJs
+        index: appIndex
     },
     devtool: 'source-map',
     output: {
@@ -191,6 +204,19 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
             { parser: { requireEnsure: false } },
             {
                 oneOf: [
+                    {
+                        test: /\.ts$/,
+                        exclude: [/[/\\\\]node_modules[/\\\\]/],
+                        use: [
+                            require.resolve('thread-loader'),
+                            {
+                                loader: require.resolve('ts-loader'),
+                                options: {
+                                    configFile: tsConfigPath
+                                },
+                            },
+                        ]
+                    },
                     {
                         test: /\.js$/,
                         exclude: [/[/\\\\]node_modules[/\\\\]/],
@@ -271,10 +297,10 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
                     {
                         loader: require.resolve('file-loader'),
                         // Exclude `js` files to keep "css" loader working as it injects
-                        // it's runtime that would otherwise processed through "file" loader.
+                        // its runtime that would otherwise processed through "file" loader.
                         // Also exclude `html` and `json` extensions so they get processed
                         // by webpack's internal loaders.
-                        exclude: [/\.js$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/],
+                        exclude: [/\.js$/, /\.ts$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/],
                         options: {
                             name: '[name].[ext]'
                         }
