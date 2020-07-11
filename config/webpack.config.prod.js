@@ -37,6 +37,38 @@ if(fs.existsSync(paths.publicDir)) {
     additionalManifestEntries = globby.sync(['**/*', '!asset-manifest.json', '!service-worker.js'], { cwd: paths.publicDir }).map(f => ({ url: `${publicUrl}/${f}`, revision: getRevision(path.join(paths.publicDir, f)) }));
 }
 
+let ssbConfig = {};
+
+if(fs.existsSync(paths.ssbConfig)) {
+    let ssbConfigObj = require(paths.ssbConfig);
+    if(ssbConfigObj) {
+        if(_.isFunction(ssbConfigObj)) {
+            ssbConfig = ssbConfigObj(env.raw, 'production', { publicUrl, ...paths });
+        } else if(_.isPlainObject(ssbConfigObj)) {
+            if(_.has(ssbConfigObj, 'prod')) {
+                ssbConfig = _.get(ssbConfigObj, 'prod');
+            } else if(_.has(ssbConfigObj, 'production')) {
+                ssbConfig = _.get(ssbConfigObj, 'production');
+            } else {
+                ssbConfig = ssbConfigObj;
+            }
+        }
+    }
+}
+
+ssbConfig = ssbConfig || {};
+
+if(ssbConfig.env && _.isPlainObject(ssbConfig.env)) {
+    const raw = _.extend({}, env.raw, ssbConfig.env);
+    const stringified = {
+        'process.env': Object.keys(raw).reduce((env, key) => {
+            env[key] = JSON.stringify(raw[key]);
+            return env;
+        }, {}),
+    };
+    env = { raw, stringified };
+}
+
 const plugins = [
     new webpack.DefinePlugin(env.stringified),
     new HtmlWebpackPlugin({
@@ -64,33 +96,8 @@ const plugins = [
     }),
 ];
 
-let ssbConfig = {};
-
-if(fs.existsSync(paths.ssbConfig)) {
-    let ssbConfigObj = require(paths.ssbConfig);
-    if(ssbConfigObj) {
-        if(_.isFunction(ssbConfigObj)) {
-            ssbConfig = ssbConfigObj(env, 'production', { publicUrl, ...paths });
-        } else if(_.isPlainObject(ssbConfigObj)) {
-            if(_.has(ssbConfigObj, 'prod')) {
-                ssbConfig = _.get(ssbConfigObj, 'prod');
-            } else if(_.has(ssbConfigObj, 'production')) {
-                ssbConfig = _.get(ssbConfigObj, 'production');
-            } else {
-                ssbConfig = ssbConfigObj;
-            }
-        }
-    }
-}
-
-ssbConfig = ssbConfig || {};
-
 if(ssbConfig.plugins && _.isArray(ssbConfig.plugins)) {
     plugins.push(...ssbConfig.plugins);
-}
-
-if(ssbConfig.env && _.isPlainObject(ssbConfig.env)) {
-    env = _.extend({}, env, ssbConfig.env)
 }
 
 const copyPatterns = [];

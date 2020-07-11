@@ -20,6 +20,38 @@ const publicUrl = publicPath.slice(0, -1);
 
 let env = getClientEnvironment(publicUrl);
 
+let ssbConfig = {};
+
+if(fs.existsSync(paths.ssbConfig)) {
+    let ssbConfigObj = require(paths.ssbConfig);
+    if(ssbConfigObj) {
+        if(_.isFunction(ssbConfigObj)) {
+            ssbConfig = ssbConfigObj(env.raw, 'development', { publicUrl, ...paths });
+        } else if(_.isPlainObject(ssbConfigObj)) {
+            if(_.has(ssbConfigObj, 'dev')) {
+                ssbConfig = _.get(ssbConfigObj, 'dev');
+            } else if(_.has(ssbConfigObj, 'development')) {
+                ssbConfig = _.get(ssbConfigObj, 'development');
+            } else {
+                ssbConfig = ssbConfigObj;
+            }
+        }
+    }
+}
+
+ssbConfig = ssbConfig || {};
+
+if(ssbConfig.env && _.isPlainObject(ssbConfig.env)) {
+    const raw = _.extend({}, env.raw, ssbConfig.env);
+    const stringified = {
+        'process.env': Object.keys(raw).reduce((env, key) => {
+            env[key] = JSON.stringify(raw[key]);
+            return env;
+        }, {}),
+    };
+    env = { raw, stringified };
+}
+
 const plugins = [
     new webpack.DefinePlugin(env.stringified),
     new HtmlWebpackPlugin({
@@ -35,33 +67,8 @@ const plugins = [
     }),
 ];
 
-let ssbConfig = {};
-
-if(fs.existsSync(paths.ssbConfig)) {
-    let ssbConfigObj = require(paths.ssbConfig);
-    if(ssbConfigObj) {
-        if(_.isFunction(ssbConfigObj)) {
-            ssbConfig = ssbConfigObj(env, 'development', { publicUrl, ...paths });
-        } else if(_.isPlainObject(ssbConfigObj)) {
-            if(_.has(ssbConfigObj, 'dev')) {
-                ssbConfig = _.get(ssbConfigObj, 'dev');
-            } else if(_.has(ssbConfigObj, 'development')) {
-                ssbConfig = _.get(ssbConfigObj, 'development');
-            } else {
-                ssbConfig = ssbConfigObj;
-            }
-        }
-    }
-}
-
-ssbConfig = ssbConfig || {};
-
 if(ssbConfig.plugins && _.isArray(ssbConfig.plugins)) {
     plugins.push(...ssbConfig.plugins);
-}
-
-if(ssbConfig.env && _.isPlainObject(ssbConfig.env)) {
-    env = _.extend({}, env, ssbConfig.env)
 }
 
 const copyPatterns = [];
