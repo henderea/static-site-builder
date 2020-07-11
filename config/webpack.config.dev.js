@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const {GenerateSW} = require('workbox-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
@@ -18,9 +17,53 @@ const shouldUseRelativeAssetPaths = publicPath === './';
 // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
 const publicUrl = publicPath.slice(0, -1);
 
-const env = getClientEnvironment(publicUrl);
+let env = getClientEnvironment(publicUrl);
 
-module.exports = {
+const plugins = [
+    new webpack.DefinePlugin(env.stringified),
+    new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: paths.appTemplate,
+        inject: 'head',
+        minify: { collapseWhitespace: true }
+    }),
+    new CaseSensitivePathsPlugin(),
+    new ManifestPlugin({
+        fileName: 'asset-manifest.json',
+        publicPath: publicPath
+    }),
+];
+
+let ssbConfig = {};
+
+if(fs.existsSync(paths.ssbConfig)) {
+    let ssbConfigObj = require(paths.ssbConfig);
+    if(ssbConfigObj) {
+        if(_.isFunction(ssbConfigObj)) {
+            ssbConfig = ssbConfigObj(env, 'development', { publicUrl, ...paths });
+        } else if(_.isPlainObject(ssbConfigObj)) {
+            if(_.has(ssbConfigObj, 'dev')) {
+                ssbConfig = _.get(ssbConfigObj, 'dev');
+            } else if(_.has(ssbConfigObj, 'development')) {
+                ssbConfig = _.get(ssbConfigObj, 'development');
+            } else {
+                ssbConfig = ssbConfigObj;
+            }
+        }
+    }
+}
+
+ssbConfig = ssbConfig || {};
+
+if(ssbConfig.plugins && _.isArray(ssbConfig.plugins)) {
+    plugins.push(...ssbConfig.plugins);
+}
+
+if(ssbConfig.env && _.isPlainObject(ssbConfig.env)) {
+    env = _.extend({}, env, ssbConfig.env)
+}
+
+module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
     mode: 'development',
     entry: {
         index: paths.appIndexJs
@@ -110,21 +153,8 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new webpack.DefinePlugin(env.stringified),
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: paths.appTemplate,
-            inject: 'head',
-            minify: { collapseWhitespace: true }
-        }),
-        new CaseSensitivePathsPlugin(),
-        new ManifestPlugin({
-            fileName: 'asset-manifest.json',
-            publicPath: publicPath
-        }),
-    ],
+    plugins,
     performance: {
         hints: false,
     },
-};
+});

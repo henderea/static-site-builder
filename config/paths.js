@@ -53,6 +53,7 @@ const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
 module.exports = {
     dotenv: resolveApp('.env'),
+    ssbConfig: resolveApp('static-site-builder.config.js'),
     appPath: resolveApp('.'),
     appBuild: resolveApp('build'),
     appDist: resolveApp('dist'),
@@ -66,6 +67,8 @@ module.exports = {
     servedPath: getServedPath(resolveApp('package.json')),
     ownPath: resolveOwn('.'),
     ownNodeModules: resolveOwn('node_modules'),
+    resolveApp,
+    resolveOwn
 };
 
 

@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -22,7 +23,7 @@ const shouldUseRelativeAssetPaths = publicPath === './';
 // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
 const publicUrl = publicPath.slice(0, -1);
 
-const env = getClientEnvironment(publicUrl);
+let env = getClientEnvironment(publicUrl);
 
 const cssFilename = '[name].css';
 
@@ -52,8 +53,37 @@ const plugins = [
     }),
 ];
 
+let ssbConfig = {};
+
+if(fs.existsSync(paths.ssbConfig)) {
+    let ssbConfigObj = require(paths.ssbConfig);
+    if(ssbConfigObj) {
+        if(_.isFunction(ssbConfigObj)) {
+            ssbConfig = ssbConfigObj(env, 'production', { publicUrl, ...paths });
+        } else if(_.isPlainObject(ssbConfigObj)) {
+            if(_.has(ssbConfigObj, 'prod')) {
+                ssbConfig = _.get(ssbConfigObj, 'prod');
+            } else if(_.has(ssbConfigObj, 'production')) {
+                ssbConfig = _.get(ssbConfigObj, 'production');
+            } else {
+                ssbConfig = ssbConfigObj;
+            }
+        }
+    }
+}
+
+ssbConfig = ssbConfig || {};
+
+if(ssbConfig.plugins && _.isArray(ssbConfig.plugins)) {
+    plugins.push(...ssbConfig.plugins);
+}
+
+if(ssbConfig.env && _.isPlainObject(ssbConfig.env)) {
+    env = _.extend({}, env, ssbConfig.env)
+}
+
 const packageJson = require(paths.appPackageJson);
-const config = packageJson.staticSiteBuilderConfig;
+const config = _.extend({}, packageJson.staticSiteBuilderConfig || {}, ssbConfig);
 const rawMomentLocales = config && config.momentLocales;
 if(rawMomentLocales === '') {
     plugins.push(new MomentLocalesPlugin());
@@ -100,7 +130,7 @@ if(config && maxAssetSize) {
     performance.maxAssetSize = maxAssetSize;
 }
 
-module.exports = {
+module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
     mode: 'production',
     entry: {
         index: paths.appIndexJs
@@ -218,4 +248,4 @@ module.exports = {
     },
     plugins,
     performance
-};
+});
