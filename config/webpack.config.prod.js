@@ -37,7 +37,7 @@ const getRevision = file => crypto.createHash('md5').update(fs.readFileSync(file
 let additionalManifestEntries = undefined;
 
 if(fs.existsSync(paths.publicDir)) {
-    additionalManifestEntries = globby.sync(['**/*', '!asset-manifest.json', '!service-worker.js', '!*.ts'], { cwd: paths.publicDir }).map(f => ({ url: `${publicUrl}/${f}`, revision: getRevision(path.join(paths.publicDir, f)) }));
+    additionalManifestEntries = globby.sync(['**/*', '!asset-manifest.json', '!service-worker.js'], { cwd: paths.publicDir }).map(f => ({ url: `${publicUrl}/${f}`, revision: getRevision(path.join(paths.publicDir, f)) }));
 }
 
 let ssbConfig = {};
@@ -90,7 +90,13 @@ const plugins = [
     }),
     new ManifestPlugin({
         fileName: 'asset-manifest.json',
-        publicPath: publicPath
+        publicPath: publicPath,
+        filter(file) {
+            if(/^[/]?[.]{2}[/]?/.test(file.path)) { return false; }
+            if(/\.ts$/.test(file.path)) { return false; }
+            if(/(^|[/])\./.test(file.name)) { return false; }
+            return true;
+        }
     }),
     new GenerateSW({
         // Don't precache sourcemaps (they're large) and build asset manifest:
