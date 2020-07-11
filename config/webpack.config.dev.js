@@ -7,6 +7,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+const _ = require('lodash');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
