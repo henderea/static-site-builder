@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const _ = require('lodash');
@@ -98,6 +99,12 @@ if(ssbConfig.tsConfigPath && fs.existsSync(paths.resolveApp(ssbConfig.tsConfigPa
     tsConfigPath = paths.resolveApp(ssbConfig.tsConfigPath);
 }
 
+const resolvePlugins = [];
+
+if(fs.existsSync(tsConfigPath)) {
+    resolvePlugins.push(new TsconfigPathsPlugin({ configFile: tsConfigPath }));
+}
+
 let appIndex = paths.appIndex;
 
 if(ssbConfig.appIndex && fs.existsSync(paths.resolveApp(appIndex))) {
@@ -120,7 +127,8 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
             // It is guaranteed to exist because we tweak it in `env.js`
             process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
         ),
-        extensions: ['.js', '.json'],
+        extensions: ['.js', '.ts', '.json'],
+        plugins: resolvePlugins,
     },
     module: {
         strictExportPresence: true,

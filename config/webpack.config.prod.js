@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const postCssEnv = require('postcss-preset-env');
 const getClientEnvironment = require('./env');
@@ -14,6 +15,7 @@ const paths = require('./paths');
 const _ = require('lodash');
 const crypto = require('crypto');
 const { findIndex } = require('lodash');
+const globby = require('globby');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -130,6 +132,12 @@ if(ssbConfig.tsConfigPath && fs.existsSync(paths.resolveApp(ssbConfig.tsConfigPa
     tsConfigPath = paths.resolveApp(ssbConfig.tsConfigPath);
 }
 
+const resolvePlugins = [];
+
+if(fs.existsSync(tsConfigPath)) {
+    resolvePlugins.push(new TsconfigPathsPlugin({ configFile: tsConfigPath }));
+}
+
 let appIndex = paths.appIndex;
 
 if(ssbConfig.appIndex && fs.existsSync(paths.resolveApp(appIndex))) {
@@ -200,7 +208,8 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
             // It is guaranteed to exist because we tweak it in `env.js`
             process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
         ),
-        extensions: ['.js', '.json'],
+        extensions: ['.js', '.ts', '.json'],
+        plugins: resolvePlugins,
     },
     module: {
         strictExportPresence: true,
