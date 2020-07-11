@@ -37,7 +37,7 @@ const getRevision = file => crypto.createHash('md5').update(fs.readFileSync(file
 let additionalManifestEntries = undefined;
 
 if(fs.existsSync(paths.publicDir)) {
-    additionalManifestEntries = globby.sync(['**/*', '!asset-manifest.json', '!service-worker.js'], { cwd: paths.publicDir }).map(f => ({ url: `${publicUrl}/${f}`, revision: getRevision(path.join(paths.publicDir, f)) }));
+    additionalManifestEntries = globby.sync(['**/*', '!asset-manifest.json', '!service-worker.js', '!*.ts'], { cwd: paths.publicDir }).map(f => ({ url: `${publicUrl}/${f}`, revision: getRevision(path.join(paths.publicDir, f)) }));
 }
 
 let ssbConfig = {};
