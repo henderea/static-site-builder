@@ -212,7 +212,6 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
                         test: /\.ts$/,
                         exclude: [/[/\\\\]node_modules[/\\\\]/],
                         use: [
-                            require.resolve('thread-loader'),
                             {
                                 loader: require.resolve('ts-loader'),
                                 options: {
