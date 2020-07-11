@@ -54,6 +54,7 @@ const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 module.exports = {
     dotenv: resolveApp('.env'),
     ssbConfig: resolveApp('static-site-builder.config.js'),
+    publicDir: resolveApp('public'),
     appPath: resolveApp('.'),
     appBuild: resolveApp('build'),
     appDist: resolveApp('dist'),

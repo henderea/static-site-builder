@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
@@ -61,6 +62,25 @@ if(ssbConfig.plugins && _.isArray(ssbConfig.plugins)) {
 
 if(ssbConfig.env && _.isPlainObject(ssbConfig.env)) {
     env = _.extend({}, env, ssbConfig.env)
+}
+
+const copyPatterns = [];
+
+if(fs.existsSync(paths.publicDir)) {
+    copyPatterns.push({
+        from: paths.publicDir,
+        to: paths.appBuild
+    });
+}
+
+if(ssbConfig.copyPatterns && _.isArray(ssbConfig.copyPatterns)) {
+    copyPatterns.push(...ssbConfig.copyPatterns);
+}
+
+if(copyPatterns.length > 0) {
+    plugins.push(new CopyPlugin({
+        patterns: copyPatterns
+    }));
 }
 
 module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {

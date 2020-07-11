@@ -5,12 +5,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const postCssEnv = require('postcss-preset-env');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const _ = require('lodash');
+const crypto = require('crypto')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -26,6 +28,14 @@ const publicUrl = publicPath.slice(0, -1);
 let env = getClientEnvironment(publicUrl);
 
 const cssFilename = '[name].css';
+
+const getRevision = file => crypto.createHash('md5').update(fs.readFileSync(file)).digest('hex')
+
+let additionalManifestEntries = undefined;
+
+if(fs.existsSync(paths.publicDir)) {
+    additionalManifestEntries = globby.sync(['**/*', '!asset-manifest.json', '!service-worker.js'], { cwd: paths.publicDir }).map(f => ({ url: `${publicUrl}/${f}`, revision: getRevision(path.join(paths.publicDir, f)) }));
+}
 
 const plugins = [
     new webpack.DefinePlugin(env.stringified),
@@ -50,6 +60,7 @@ const plugins = [
         // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#service-worker-considerations
         navigateFallback: publicUrl + '/index.html',
         navigateFallbackDenylist: [/^\/_/],
+        additionalManifestEntries,
     }),
 ];
 
@@ -80,6 +91,25 @@ if(ssbConfig.plugins && _.isArray(ssbConfig.plugins)) {
 
 if(ssbConfig.env && _.isPlainObject(ssbConfig.env)) {
     env = _.extend({}, env, ssbConfig.env)
+}
+
+const copyPatterns = [];
+
+if(fs.existsSync(paths.publicDir)) {
+    copyPatterns.push({
+        from: paths.publicDir,
+        to: paths.appDist
+    });
+}
+
+if(ssbConfig.copyPatterns && _.isArray(ssbConfig.copyPatterns)) {
+    copyPatterns.push(...ssbConfig.copyPatterns);
+}
+
+if(copyPatterns.length > 0) {
+    plugins.push(new CopyPlugin({
+        patterns: copyPatterns
+    }));
 }
 
 const packageJson = require(paths.appPackageJson);
