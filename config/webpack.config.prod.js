@@ -100,7 +100,7 @@ const plugins = [
     }),
     new GenerateSW({
         // Don't precache sourcemaps (they're large) and build asset manifest:
-        exclude: [/\.map$/, /asset-manifest\.json$/],
+        exclude: [/\.map$/, /asset-manifest\.json$/, /^[/]?[.]{2}/, /.ts$/],
         // `navigateFallback` and `navigateFallbackWhitelist` are disabled by default; see
         // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#service-worker-considerations
         navigateFallback: publicUrl + '/index.html',
