@@ -62,11 +62,11 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
 
 // Grab NODE_ENV and SSB_APP_* environment variables and prepare them to be
 // injected into the application via DefinePlugin in Webpack configuration.
-const SSB_APP = /^SSB_APP_/i;
+const ALLOWED_ENV = /^(SSB_APP_|VERCEL_|NOW_)/i;
 
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
-    .filter(key => SSB_APP.test(key))
+    .filter(key => ALLOWED_ENV.test(key))
     .reduce(
       (env, key) => {
         env[key] = process.env[key];
