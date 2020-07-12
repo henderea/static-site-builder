@@ -111,6 +111,12 @@ if(ssbConfig.appIndex && fs.existsSync(paths.resolveApp(appIndex))) {
     appIndex = paths.resolveApp(appIndex);
 }
 
+const extraLoaders = [];
+
+if(ssbConfig.extraLoaders && _.isArray(ssbConfig.extraLoaders)) {
+    extraLoaders.push(...ssbConfig.extraLoaders);
+}
+
 module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
     mode: 'development',
     entry: {
@@ -136,6 +142,7 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
             { parser: { requireEnsure: false } },
             {
                 oneOf: [
+                    ...extraLoaders,
                     {
                         test: /\.ts$/,
                         exclude: [/[/\\\\]node_modules[/\\\\]/],

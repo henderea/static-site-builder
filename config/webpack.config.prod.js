@@ -220,6 +220,12 @@ if(config && maxAssetSize) {
     performance.maxAssetSize = maxAssetSize;
 }
 
+const extraLoaders = [];
+
+if(ssbConfig.extraLoaders && _.isArray(ssbConfig.extraLoaders)) {
+    extraLoaders.push(...ssbConfig.extraLoaders);
+}
+
 module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
     mode: 'production',
     entry: {
@@ -245,6 +251,7 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
             { parser: { requireEnsure: false } },
             {
                 oneOf: [
+                    ...extraLoaders,
                     {
                         test: /\.ts$/,
                         exclude: [/[/\\\\]node_modules[/\\\\]/],
