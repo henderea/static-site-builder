@@ -94,14 +94,20 @@ runtimeCaching.unshift({
     }
 });
 
+let htmlWebpackPluginOptions = {
+    filename: 'index.html',
+    template: paths.appTemplate,
+    inject: 'head',
+    minify: { collapseWhitespace: true }
+};
+
+if(ssbConfig.htmlWebpackPluginOptions && _.isPlainObject(ssbConfig.htmlWebpackPluginOptions)) {
+    htmlWebpackPluginOptions = _.extend({}, htmlWebpackPluginOptions, ssbConfig.htmlWebpackPluginOptions);
+}
+
 const plugins = [
     new webpack.DefinePlugin(env.stringified),
-    new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: paths.appTemplate,
-        inject: 'head',
-        minify: { collapseWhitespace: true }
-    }),
+    new HtmlWebpackPlugin(htmlWebpackPluginOptions),
     new CaseSensitivePathsPlugin(),
     new MiniCssExtractPlugin({
         filename: cssFilename
