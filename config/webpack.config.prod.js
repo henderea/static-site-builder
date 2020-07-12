@@ -76,6 +76,24 @@ if(ssbConfig.additionalManifestEntries && _.isArray(ssbConfig.additionalManifest
     additionalManifestEntries.push(...ssbConfig.additionalManifestEntries);
 }
 
+let runtimeCaching = require('./cache-config');
+
+if(ssbConfig.runtimeCaching && _.isArray(ssbConfig.runtimeCaching)) {
+    runtimeCaching = ssbConfig.runtimeCaching;
+}
+
+cacheConfig.unshift({
+    urlPattern: publicPath,
+    handler: 'NetworkFirst',
+    options: {
+        cacheName: 'start-url',
+        expiration: {
+            maxEntries: 1,
+            maxAgeSeconds: 24 * 60 * 60 // 24 hours
+        }
+    }
+});
+
 const plugins = [
     new webpack.DefinePlugin(env.stringified),
     new HtmlWebpackPlugin({
@@ -90,7 +108,7 @@ const plugins = [
     }),
     new ManifestPlugin({
         fileName: 'asset-manifest.json',
-        publicPath: publicPath,
+        publicPath,
         filter(file) {
             if(/^[/]?[.]{2}[/]?/.test(file.path)) { return false; }
             if(/\.ts$/.test(file.path)) { return false; }
@@ -106,6 +124,10 @@ const plugins = [
         navigateFallback: publicUrl + '/index.html',
         navigateFallbackDenylist: [/^\/_/],
         additionalManifestEntries,
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
+        runtimeCaching,
     }),
 ];
 
