@@ -82,7 +82,7 @@ if(ssbConfig.runtimeCaching && _.isArray(ssbConfig.runtimeCaching)) {
     runtimeCaching = ssbConfig.runtimeCaching;
 }
 
-cacheConfig.unshift({
+runtimeCaching.unshift({
     urlPattern: publicPath,
     handler: 'NetworkFirst',
     options: {
