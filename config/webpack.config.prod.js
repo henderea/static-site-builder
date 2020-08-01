@@ -250,6 +250,7 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
         ),
         extensions: ['.js', '.ts', '.json'],
         plugins: resolvePlugins,
+        roots: [paths.appPath, paths.publicDir],
     },
     module: {
         strictExportPresence: true,
