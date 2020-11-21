@@ -255,7 +255,10 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
     module: {
         strictExportPresence: true,
         rules: [
-            { parser: { requireEnsure: false } },
+            {
+                test: /\.[tj]s$/,
+                parser: { requireEnsure: false }
+            },
             {
                 oneOf: [
                     ...extraLoaders,
