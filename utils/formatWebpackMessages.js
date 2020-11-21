@@ -16,6 +16,7 @@
 
 var chalk = require('chalk');
 var friendlySyntaxErrorLabel = 'Syntax error:';
+var _ = require('lodash');
 
 function isLikelyASyntaxError(message) {
   return message.indexOf(friendlySyntaxErrorLabel) !== -1;
@@ -24,7 +25,8 @@ function isLikelyASyntaxError(message) {
 // Cleans up webpack error messages.
 // eslint-disable-next-line no-unused-vars
 function formatMessage(message, isError) {
-  var lines = String(message || '').split('\n');
+  if(_.isPlainObject(message)) { message = message.message || ''; }
+  var lines = message.split('\n');
 
   if (lines.length > 2 && lines[1] === '') {
     // Remove extra newline.

@@ -9,7 +9,6 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
-const postCssEnv = require('postcss-preset-env');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const _ = require('lodash');
@@ -333,10 +332,9 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
                             {
                                 loader: 'postcss-loader',
                                 options: {
-                                    ident: 'postcss',
-                                    plugins: (loader) => [
-                                        postCssEnv()
-                                    ],
+                                    postcssOptions: {
+                                        plugins: ['postcss-preset-env']
+                                    },
                                     sourceMap: true
                                 }
                             },
