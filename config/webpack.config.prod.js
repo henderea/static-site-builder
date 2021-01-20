@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
@@ -13,7 +13,6 @@ const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const _ = require('lodash');
 const crypto = require('crypto');
-const { findIndex } = require('lodash');
 const globby = require('globby');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -111,7 +110,7 @@ const plugins = [
     new MiniCssExtractPlugin({
         filename: cssFilename
     }),
-    new ManifestPlugin({
+    new WebpackManifestPlugin({
         fileName: 'asset-manifest.json',
         publicPath,
         filter(file) {
