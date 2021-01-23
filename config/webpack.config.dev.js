@@ -3,7 +3,7 @@ const fs = require('fs');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const getClientEnvironment = require('./env');
@@ -70,7 +70,7 @@ const plugins = [
     new webpack.DefinePlugin(env.stringified),
     new HtmlWebpackPlugin(htmlWebpackPluginOptions),
     new CaseSensitivePathsPlugin(),
-    new ManifestPlugin({
+    new WebpackManifestPlugin({
         fileName: 'asset-manifest.json',
         publicPath: publicPath
     }),
