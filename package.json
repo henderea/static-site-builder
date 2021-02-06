@@ -1,6 +1,6 @@
 {
   "name": "@henderea/static-site-builder",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "description": "A static site builder",
   "main": "index.js",
   "repository": "henderea/static-site-builder.git",
@@ -17,7 +17,7 @@
     "registerServiceWorker.js"
   ],
   "bin": {
-    "static-site-builder": "./bin/static-site-builder.js"
+    "static-site-builder": "bin/static-site-builder.js"
   },
   "dependencies": {
     "@babel/core": "^7.12.13",
