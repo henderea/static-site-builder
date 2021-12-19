@@ -9,7 +9,10 @@
 import path from 'path';
 import fs from 'fs';
 import url from 'url';
-import { findMonorepo } from '../utils/workspaceUtils';
+import { findMonorepo } from '../utils/workspaceUtils.js';
+import { fileURLToPath } from 'url';
+
+const dirname = fileURLToPath(import.meta.url);
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
@@ -34,7 +37,7 @@ function ensureSlash(path, needsSlash) {
 }
 
 const getPublicUrl = (appPackageJson) =>
-  envPublicUrl || require(appPackageJson).homepage;
+  envPublicUrl || JSON.parse(fs.readFileSync(appPackageJson)).homepage;
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -49,37 +52,29 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
-const resolveOwn = (relativePath) => path.resolve(__dirname, '..', relativePath);
+const resolveOwn = (relativePath) => path.resolve(dirname, '..', relativePath);
 
 export const dotenv = resolveApp('.env');
 export const ssbConfig = resolveApp('static-site-builder.config.js');
 export const publicDir = resolveApp('public');
-export const tsConfig= resolveApp('tsconfig.json');
-export const appPath= resolveApp('.');
-export const appBuild= resolveApp('build');
-export const appDist= resolveApp('dist');
-export const appTemplate= resolveAppFirst('src/index.html', 'src/index.ejs', 'src/index.hbs');
-export const appIndex= resolveAppFirst('src/index.js', 'src/index.ts');
-export const appPackageJson= resolveApp('package.json');
-export const appSrc= resolveApp('src');
-export const testsSetup= resolveApp('src/setupTests.js');
-export const appNodeModules= resolveApp('node_modules');
-export const publicUrl= getPublicUrl(resolveApp('package.json'));
-export const servedPath= getServedPath(resolveApp('package.json'));
-export const ownPath= resolveOwn('.');
-export const ownNodeModules= resolveOwn('node_modules');
-export {
-  resolveApp,
-  resolveAppFirst,
-  resolveOwn,
-  ensureSlash
-};
-
-
-const srcPaths = [module.exports.appSrc];
+export const tsConfig = resolveApp('tsconfig.json');
+export const appPath = resolveApp('.');
+export const appBuild = resolveApp('build');
+export const appDist = resolveApp('dist');
+export const appTemplate = resolveAppFirst('src/index.html', 'src/index.ejs', 'src/index.hbs');
+export const appIndex = resolveAppFirst('src/index.js', 'src/index.ts');
+export const appPackageJson = resolveApp('package.json');
+export const appSrc = resolveApp('src');
+export const testsSetup = resolveApp('src/setupTests.js');
+export const appNodeModules = resolveApp('node_modules');
+export const publicUrl = getPublicUrl(resolveApp('package.json'));
+export const servedPath = getServedPath(resolveApp('package.json'));
+export const ownPath = resolveOwn('.');
+export const ownNodeModules = resolveOwn('node_modules');
+const srcPaths = [appSrc];
 
 let useYarn = fs.existsSync(
-  path.join(module.exports.appPath, 'yarn.lock')
+  path.join(appPath, 'yarn.lock')
 );
 
 let checkForMonorepo = true;
@@ -91,10 +86,14 @@ if(checkForMonorepo) {
   if(mono.isAppIncluded) {
     Array.prototype.push.apply(srcPaths, mono.pkgs);
   }
-  useYarn = module.exports.useYarn || mono.isYarnWs;
+  useYarn = useYarn || mono.isYarnWs;
 }
 
 export {
+  resolveApp,
+  resolveAppFirst,
+  resolveOwn,
+  ensureSlash,
   srcPaths,
   useYarn
 };

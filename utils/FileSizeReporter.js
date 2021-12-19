@@ -13,7 +13,7 @@ import chalk from 'chalk';
 import filesize from 'filesize';
 import recursive from 'recursive-readdir';
 import stripAnsi from 'strip-ansi';
-import { sync as gzipSize } from 'gzip-size';
+import { gzipSizeSync } from 'gzip-size';
 
 // Prints a detailed summary of build files.
 function printFileSizesAfterBuild(
@@ -32,7 +32,7 @@ function printFileSizesAfterBuild(
         .assets.filter((asset) => /\.(js|css)$/.test(asset.name))
         .map((asset) => {
           var fileContents = fs.readFileSync(path.join(root, asset.name));
-          var size = gzipSize(fileContents);
+          var size = gzipSizeSync(fileContents);
           var previousSize = sizes[removeFileNameHash(root, asset.name)];
           var difference = getDifferenceLabel(size, previousSize);
           return {
@@ -132,7 +132,7 @@ function measureFileSizesBeforeBuild(buildFolder) {
           .reduce((memo, fileName) => {
             var contents = fs.readFileSync(fileName);
             var key = removeFileNameHash(buildFolder, fileName);
-            memo[key] = gzipSize(contents);
+            memo[key] = gzipSizeSync(contents);
             return memo;
           }, {});
       }

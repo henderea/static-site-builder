@@ -15,8 +15,13 @@ process.on('unhandledRejection', (err) => {
   throw err;
 });
 
-import spawn from 'cross-spawn';
+import { spawnSync } from 'child_process';
 const args = process.argv.slice(2);
+import _ from 'lodash';
+
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 const scriptIndex = args.findIndex(
   (x) => x === 'build' || x === 'watch'
@@ -27,12 +32,13 @@ const nodeArgs = scriptIndex > 0 ? args.slice(0, scriptIndex) : [];
 switch(script) {
 case 'build':
 case 'watch': {
-  const result = spawn.sync(
+  const nodeEnv = script == 'build' ? 'production' : 'development';
+  const result = spawnSync(
     'node',
     nodeArgs
       .concat(require.resolve('../scripts/' + script))
       .concat(args.slice(scriptIndex + 1)),
-    { stdio: 'inherit' }
+    { stdio: 'inherit', env: _.extend({}, process.env, { NODE_ENV: nodeEnv, BABEL_ENV: nodeEnv }) }
   );
   if(result.signal) {
     if(result.signal === 'SIGKILL') {
@@ -52,6 +58,7 @@ case 'watch': {
   }
   process.exit(result.status);
 }
+// eslint-disable-next-line no-fallthrough
 default:
   console.log('Unknown script "' + script + '".');
   console.log('Perhaps you need to update static-site-builder?');

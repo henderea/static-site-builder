@@ -9,11 +9,14 @@ import CopyPlugin from 'copy-webpack-plugin';
 import { GenerateSW } from 'workbox-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import MomentLocalesPlugin from 'moment-locales-webpack-plugin';
-import getClientEnvironment from './env';
-import * as paths from './paths';
+import getClientEnvironment from './env.js';
+import * as paths from './paths.js';
 import _ from 'lodash';
 import crypto from 'crypto';
 import { globbySync } from 'globby';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -74,7 +77,8 @@ if(ssbConfig.additionalManifestEntries && _.isArray(ssbConfig.additionalManifest
   additionalManifestEntries.push(...ssbConfig.additionalManifestEntries);
 }
 
-let runtimeCaching = require('./cache-config');
+import runtimeCachingTmp from './cache-config.js';
+let runtimeCaching = runtimeCachingTmp;
 
 if(ssbConfig.runtimeCaching && _.isArray(ssbConfig.runtimeCaching)) {
   runtimeCaching = ssbConfig.runtimeCaching;
@@ -230,7 +234,7 @@ if(ssbConfig.extraLoaders && _.isArray(ssbConfig.extraLoaders)) {
   extraLoaders.push(...ssbConfig.extraLoaders);
 }
 
-module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
+export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
   mode: 'production',
   entry: {
     index: appIndex
@@ -354,7 +358,7 @@ module.exports = _.defaultsDeep({}, ssbConfig.webpack || {}, {
             // its runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpack's internal loaders.
-            exclude: [/\.js$/, /\.ts$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/],
+            exclude: [/\.js$/, /\.ts$/, /\.svg$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/],
             options: {
               name: '[name].[ext]'
             }

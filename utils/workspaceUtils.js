@@ -8,7 +8,10 @@
 import fs from 'fs';
 import path from 'path';
 import findPkg from 'find-pkg';
-import globby from 'globby';
+import { globbySync } from 'globby';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 const findPkgs = (rootPath, globPatterns) => {
   if(!globPatterns) {
@@ -22,7 +25,7 @@ const findPkgs = (rootPath, globPatterns) => {
   return globPatterns
     .reduce(
       (pkgs, pattern) =>
-        pkgs.concat(globby.sync(path.join(pattern, 'package.json'), globOpts)),
+        pkgs.concat(globbySync(path.join(pattern, 'package.json'), globOpts)),
       []
     )
     .map((f) => path.dirname(path.normalize(f)));

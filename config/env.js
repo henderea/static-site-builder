@@ -6,10 +6,12 @@
  */
 import fs from 'fs';
 import path from 'path';
-import paths from './paths';
+import * as paths from './paths.js';
+import dotenvExpand from 'dotenv-expand';
+import dotenv from 'dotenv';
 
 // Make sure that including paths.js after env.js will read .env variables.
-delete require.cache[require.resolve('./paths')];
+// delete require.cache[require.resolve('./paths')];
 
 const NODE_ENV = process.env.NODE_ENV;
 if(!NODE_ENV) {
@@ -36,8 +38,8 @@ var dotenvFiles = [
 // https://github.com/motdotla/dotenv-expand
 dotenvFiles.forEach((dotenvFile) => {
   if(fs.existsSync(dotenvFile)) {
-    require('dotenv-expand')(
-      require('dotenv').config({
+    dotenvExpand(
+      dotenv.config({
         path: dotenvFile,
       })
     );

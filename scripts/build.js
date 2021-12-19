@@ -11,18 +11,18 @@ process.on('unhandledRejection', (err) => {
   throw err;
 });
 
-require('../config/env');
+import '../config/env.js';
 
 // import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import webpack from 'webpack';
-import config from '../config/webpack.config.prod';
-import * as paths from '../config/paths';
-import checkRequiredFiles from '../utils/checkRequiredFiles';
-import formatWebpackMessages from '../utils/formatWebpackMessages';
-import FileSizeReporter from '../utils/FileSizeReporter';
-import printBuildError from '../utils/printBuildError';
+import config from '../config/webpack.config.prod.js';
+import * as paths from '../config/paths.js';
+import checkRequiredFiles from '../utils/checkRequiredFiles.js';
+import formatWebpackMessages from '../utils/formatWebpackMessages.js';
+import * as FileSizeReporter from '../utils/FileSizeReporter.js';
+import printBuildError from '../utils/printBuildError.js';
 
 const measureFileSizesBeforeBuild =
     FileSizeReporter.measureFileSizesBeforeBuild;
