@@ -234,6 +234,14 @@ if(ssbConfig.extraLoaders && _.isArray(ssbConfig.extraLoaders)) {
   extraLoaders.push(...ssbConfig.extraLoaders);
 }
 
+let postcssOptions = {
+  plugins: ['postcss-preset-env']
+};
+
+if(ssbConfig.postcssOptions && _.isPlainObject(ssbConfig.postcssOptions)) {
+  postcssOptions = ssbConfig.postcssOptions;
+}
+
 export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
   mode: 'production',
   entry: {
@@ -335,9 +343,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
               {
                 loader: 'postcss-loader',
                 options: {
-                  postcssOptions: {
-                    plugins: ['postcss-preset-env']
-                  },
+                  postcssOptions,
                   sourceMap: true
                 }
               },
