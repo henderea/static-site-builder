@@ -7,21 +7,21 @@
 
 'use strict';
 
-const chalk = require('chalk');
+import chalk from 'chalk';
 
-module.exports = function printBuildError(err) {
+export default function printBuildError(err) {
   const message = err != null && err.message;
   const stack = err != null && err.stack;
 
   // Add more helpful message for UglifyJs error
-  if (
+  if(
     stack &&
     typeof message === 'string' &&
     message.indexOf('from UglifyJs') !== -1
   ) {
     try {
       const matched = /(.+)\[(.+):(.+),(.+)\]\[.+\]/.exec(stack);
-      if (!matched) {
+      if(!matched) {
         throw new Error('Using errors for control flow is bad.');
       }
       const problemPath = matched[2];
@@ -42,4 +42,4 @@ module.exports = function printBuildError(err) {
     console.log((message || err) + '\n');
   }
   console.log();
-};
+}

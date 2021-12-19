@@ -14,9 +14,9 @@
 // This is quite hacky and hopefully won't be needed when Webpack fixes this.
 // https://github.com/webpack/webpack/issues/2878
 
-var chalk = require('chalk');
+import chalk from 'chalk';
 var friendlySyntaxErrorLabel = 'Syntax error:';
-var _ = require('lodash');
+import _ from 'lodash';
 
 function isLikelyASyntaxError(message) {
   return message.indexOf(friendlySyntaxErrorLabel) !== -1;
@@ -28,7 +28,7 @@ function formatMessage(message, isError) {
   if(_.isPlainObject(message)) { message = message.message || ''; }
   var lines = message.split('\n');
 
-  if (lines.length > 2 && lines[1] === '') {
+  if(lines.length > 2 && lines[1] === '') {
     // Remove extra newline.
     lines.splice(1, 1);
   }
@@ -38,22 +38,22 @@ function formatMessage(message, isError) {
   // ./~/css-loader!./~/postcss-loader!./src/App.css
   // After:
   // ./src/App.css
-  if (lines[0].lastIndexOf('!') !== -1) {
+  if(lines[0].lastIndexOf('!') !== -1) {
     lines[0] = lines[0].substr(lines[0].lastIndexOf('!') + 1);
   }
 
   // Remove unnecessary stack added by `thread-loader`
   var threadLoaderIndex = -1;
   lines.forEach(function(line, index) {
-    if (threadLoaderIndex !== -1) {
+    if(threadLoaderIndex !== -1) {
       return;
     }
-    if (line.indexOf('from thread-loader (worker') !== -1) {
+    if(line.indexOf('from thread-loader (worker') !== -1) {
       threadLoaderIndex = index;
     }
   });
 
-  if (threadLoaderIndex !== -1) {
+  if(threadLoaderIndex !== -1) {
     lines = lines.slice(0, threadLoaderIndex);
   }
 
@@ -68,12 +68,12 @@ function formatMessage(message, isError) {
 
   // line #0 is filename
   // line #1 is the main error message
-  if (!lines[0] || !lines[1]) {
+  if(!lines[0] || !lines[1]) {
     return lines.join('\n');
   }
 
   // Cleans up verbose "module not found" messages for files and packages.
-  if (lines[1].indexOf('Module not found: ') === 0) {
+  if(lines[1].indexOf('Module not found: ') === 0) {
     lines = [
       lines[0],
       // Clean up message because "Module not found: " is descriptive enough.
@@ -86,7 +86,7 @@ function formatMessage(message, isError) {
   }
 
   // Cleans up syntax error messages.
-  if (lines[1].indexOf('Module build failed: ') === 0) {
+  if(lines[1].indexOf('Module build failed: ') === 0) {
     lines[1] = lines[1].replace(
       'Module build failed: SyntaxError:',
       friendlySyntaxErrorLabel
@@ -96,7 +96,7 @@ function formatMessage(message, isError) {
   // Clean up export errors.
   // TODO: we should really send a PR to Webpack for this.
   var exportError = /\s*(.+?)\s*(")?export '(.+?)' was not found in '(.+?)'/;
-  if (lines[1].match(exportError)) {
+  if(lines[1].match(exportError)) {
     lines[1] = lines[1].replace(
       exportError,
       "$1 '$4' does not contain an export named '$3'."
@@ -119,7 +119,7 @@ function formatMessage(message, isError) {
   return message.trim();
 }
 
-function formatWebpackMessages(json) {
+export default function formatWebpackMessages(json) {
   var formattedErrors = json.errors.map(function(message) {
     return formatMessage(message, true);
   });
@@ -130,7 +130,7 @@ function formatWebpackMessages(json) {
     errors: formattedErrors,
     warnings: formattedWarnings,
   };
-  if (result.errors.some(isLikelyASyntaxError)) {
+  if(result.errors.some(isLikelyASyntaxError)) {
     // If there are any syntax errors, show just them.
     // This prevents a confusing ESLint parsing error
     // preceding a much more useful Babel syntax error.
@@ -138,5 +138,3 @@ function formatWebpackMessages(json) {
   }
   return result;
 }
-
-module.exports = formatWebpackMessages;

@@ -5,14 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-'use strict';
-const fs = require('fs');
-const path = require('path');
-const findPkg = require('find-pkg');
-const globby = require('globby');
+import fs from 'fs';
+import path from 'path';
+import findPkg from 'find-pkg';
+import globby from 'globby';
 
 const findPkgs = (rootPath, globPatterns) => {
-  if (!globPatterns) {
+  if(!globPatterns) {
     return [];
   }
   const globOpts = {
@@ -26,20 +25,20 @@ const findPkgs = (rootPath, globPatterns) => {
         pkgs.concat(globby.sync(path.join(pattern, 'package.json'), globOpts)),
       []
     )
-    .map(f => path.dirname(path.normalize(f)));
+    .map((f) => path.dirname(path.normalize(f)));
 };
 
-const findMonorepo = appDir => {
+const findMonorepo = (appDir) => {
   const monoPkgPath = findPkg.sync(path.resolve(appDir, '..'));
   const monoPkg = monoPkgPath && require(monoPkgPath);
   const workspaces = monoPkg && monoPkg.workspaces;
   const patterns = (workspaces && workspaces.packages) || workspaces;
   const isYarnWs = Boolean(patterns);
   const allPkgs = patterns && findPkgs(path.dirname(monoPkgPath), patterns);
-  const isIncluded = dir => allPkgs && allPkgs.indexOf(dir) !== -1;
+  const isIncluded = (dir) => allPkgs && allPkgs.indexOf(dir) !== -1;
   const isAppIncluded = isIncluded(appDir);
   const pkgs = allPkgs
-    ? allPkgs.filter(f => fs.realpathSync(f) !== appDir)
+    ? allPkgs.filter((f) => fs.realpathSync(f) !== appDir)
     : [];
 
   return {
@@ -49,6 +48,6 @@ const findMonorepo = appDir => {
   };
 };
 
-module.exports = {
-  findMonorepo,
+export {
+  findMonorepo
 };

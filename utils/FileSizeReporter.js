@@ -7,13 +7,13 @@
 
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var chalk = require('chalk');
-var filesize = require('filesize');
-var recursive = require('recursive-readdir');
-var stripAnsi = require('strip-ansi');
-var gzipSize = require('gzip-size').sync;
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import filesize from 'filesize';
+import recursive from 'recursive-readdir';
+import stripAnsi from 'strip-ansi';
+import { sync as gzipSize } from 'gzip-size';
 
 // Prints a detailed summary of build files.
 function printFileSizesAfterBuild(
@@ -26,11 +26,11 @@ function printFileSizesAfterBuild(
   var root = previousSizeMap.root;
   var sizes = previousSizeMap.sizes;
   var assets = (webpackStats.stats || [webpackStats])
-    .map(stats =>
+    .map((stats) =>
       stats
         .toJson()
-        .assets.filter(asset => /\.(js|css)$/.test(asset.name))
-        .map(asset => {
+        .assets.filter((asset) => /\.(js|css)$/.test(asset.name))
+        .map((asset) => {
           var fileContents = fs.readFileSync(path.join(root, asset.name));
           var size = gzipSize(fileContents);
           var previousSize = sizes[removeFileNameHash(root, asset.name)];
@@ -51,13 +51,13 @@ function printFileSizesAfterBuild(
   assets.sort((a, b) => b.size - a.size);
   var longestSizeLabelLength = Math.max.apply(
     null,
-    assets.map(a => stripAnsi(a.sizeLabel).length)
+    assets.map((a) => stripAnsi(a.sizeLabel).length)
   );
   var suggestBundleSplitting = false;
-  assets.forEach(asset => {
+  assets.forEach((asset) => {
     var sizeLabel = asset.sizeLabel;
     var sizeLength = stripAnsi(sizeLabel).length;
-    if (sizeLength < longestSizeLabelLength) {
+    if(sizeLength < longestSizeLabelLength) {
       var rightPadding = ' '.repeat(longestSizeLabelLength - sizeLength);
       sizeLabel += rightPadding;
     }
@@ -66,7 +66,7 @@ function printFileSizesAfterBuild(
       ? maxBundleGzipSize
       : maxChunkGzipSize;
     var isLarge = maxRecommendedSize && asset.size > maxRecommendedSize;
-    if (isLarge && path.extname(asset.name) === '.js') {
+    if(isLarge && path.extname(asset.name) === '.js') {
       suggestBundleSplitting = true;
     }
     console.log(
@@ -77,7 +77,7 @@ function printFileSizesAfterBuild(
         chalk.cyan(asset.name)
     );
   });
-  if (suggestBundleSplitting) {
+  if(suggestBundleSplitting) {
     console.log();
     console.log(
       chalk.yellow('The bundle size is significantly larger than recommended.')
@@ -111,11 +111,11 @@ function getDifferenceLabel(currentSize, previousSize) {
   var FIFTY_KILOBYTES = 1024 * 50;
   var difference = currentSize - previousSize;
   var fileSize = !Number.isNaN(difference) ? filesize(difference) : 0;
-  if (difference >= FIFTY_KILOBYTES) {
+  if(difference >= FIFTY_KILOBYTES) {
     return chalk.red('+' + fileSize);
-  } else if (difference < FIFTY_KILOBYTES && difference > 0) {
+  } else if(difference < FIFTY_KILOBYTES && difference > 0) {
     return chalk.yellow('+' + fileSize);
-  } else if (difference < 0) {
+  } else if(difference < 0) {
     return chalk.green(fileSize);
   } else {
     return '';
@@ -123,12 +123,12 @@ function getDifferenceLabel(currentSize, previousSize) {
 }
 
 function measureFileSizesBeforeBuild(buildFolder) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     recursive(buildFolder, (err, fileNames) => {
       var sizes;
-      if (!err && fileNames) {
+      if(!err && fileNames) {
         sizes = fileNames
-          .filter(fileName => /\.(js|css)$/.test(fileName))
+          .filter((fileName) => /\.(js|css)$/.test(fileName))
           .reduce((memo, fileName) => {
             var contents = fs.readFileSync(fileName);
             var key = removeFileNameHash(buildFolder, fileName);
@@ -144,7 +144,7 @@ function measureFileSizesBeforeBuild(buildFolder) {
   });
 }
 
-module.exports = {
-  measureFileSizesBeforeBuild: measureFileSizesBeforeBuild,
-  printFileSizesAfterBuild: printFileSizesAfterBuild,
+export {
+  measureFileSizesBeforeBuild,
+  printFileSizesAfterBuild
 };

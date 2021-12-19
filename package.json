@@ -19,12 +19,17 @@
   "bin": {
     "static-site-builder": "bin/static-site-builder.js"
   },
+  "scripts": {
+    "lint": "eslint bin config scripts utils",
+    "lint:fix": "eslint --fix bin config scripts utils"
+  },
+  "type": "module",
   "dependencies": {
     "@babel/core": "^7.16.5",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.2.3",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
-    "chalk": "^4.1.0",
+    "chalk": "^5.0.0",
     "copy-webpack-plugin": "^10.2.0",
     "cross-spawn": "^7.0.3",
     "css-loader": "^6.5.1",
@@ -33,10 +38,10 @@
     "ejs": "^3.1.6",
     "eslint": "^8.5.0",
     "file-loader": "^6.2.0",
-    "filesize": "^6.1.0",
+    "filesize": "^8.0.6",
     "find-pkg": "^2.0.0",
-    "globby": "^11.0.2",
-    "gzip-size": "^6.0.0",
+    "globby": "^12.0.2",
+    "gzip-size": "^7.0.0",
     "handlebars": "^4.7.7",
     "html-webpack-plugin": "^5.5.0",
     "lodash": "^4.17.21",
@@ -48,7 +53,7 @@
     "postcss-preset-env": "^7.0.2",
     "recursive-readdir": "^2.2.2",
     "sass-loader": "^12.4.0",
-    "strip-ansi": "^6.0.0",
+    "strip-ansi": "^7.0.1",
     "style-loader": "^3.3.1",
     "thread-loader": "^3.0.4",
     "ts-loader": "^9.2.6",
@@ -57,5 +62,13 @@
     "webpack": "^5.65.0",
     "webpack-manifest-plugin": "^4.0.2",
     "workbox-webpack-plugin": "^6.4.2"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.16.5",
+    "eslint-config-henderea": "1.0.9",
+    "eslint-plugin-import": "^2.25.3"
+  },
+  "eslintConfig": {
+    "extends": "henderea"
   }
 }

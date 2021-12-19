@@ -7,14 +7,14 @@
 
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var chalk = require('chalk');
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
 
-function checkRequiredFiles(files) {
+export default function checkRequiredFiles(files) {
   var currentFilePath;
   try {
-    files.forEach(filePath => {
+    files.forEach((filePath) => {
       currentFilePath = filePath;
       fs.accessSync(filePath, fs.F_OK);
     });
@@ -28,5 +28,3 @@ function checkRequiredFiles(files) {
     return false;
   }
 }
-
-module.exports = checkRequiredFiles;
