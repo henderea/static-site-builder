@@ -326,6 +326,13 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
                 options: {
                   sourceMap: true,
                 }
+              },
+              {
+                loader: 'postcss-loader',
+                options: {
+                  postcssOptions,
+                  sourceMap: true
+                }
               }
             ]
           },

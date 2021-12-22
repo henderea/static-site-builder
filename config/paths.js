@@ -12,7 +12,7 @@ import url from 'url';
 import { findMonorepo } from '../utils/workspaceUtils.js';
 import { fileURLToPath } from 'url';
 
-const dirname = fileURLToPath(import.meta.url);
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
