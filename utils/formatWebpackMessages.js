@@ -23,8 +23,7 @@ function isLikelyASyntaxError(message) {
 }
 
 // Cleans up webpack error messages.
-// eslint-disable-next-line no-unused-vars
-function formatMessage(message, isError) {
+function formatMessage(message, _isError) {
   if(_.isPlainObject(message)) { message = message.message || ''; }
   var lines = message.split('\n');
 
