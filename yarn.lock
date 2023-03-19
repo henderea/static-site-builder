@@ -2646,10 +2646,10 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-eslint-config-henderea@1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/eslint-config-henderea/-/eslint-config-henderea-1.1.4.tgz#e05fe519d87ad6521fc188ebf26c3979b02c9233"
-  integrity sha512-ZcUXQIWAJd2F7EoqFrZaxnWagJ+xlPxPmepIIIhoM54C+uLgm6pm3IZiG7FQLdBDTQqb4OhwhSbgCK2S057nkg==
+eslint-config-henderea@1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/eslint-config-henderea/-/eslint-config-henderea-1.1.5.tgz#09780fb7865596397335f94b79363ad88f22de09"
+  integrity sha512-W/CXzaUTyskI+cmenEzxM1rlMFIz7syL1/Xmfh8gwmdo6SV3/wvFkMJ7E8HyE51g7wzLBSCSY+Jow4VfugmBrw==
 
 eslint-import-resolver-node@^0.3.7:
   version "0.3.7"
