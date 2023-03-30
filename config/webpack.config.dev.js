@@ -131,7 +131,7 @@ let postcssOptions = {
 };
 
 if(ssbConfig.postcssOptions && _.isPlainObject(ssbConfig.postcssOptions)) {
-  postcssOptions = ssbConfig.postcssOptions;
+  postcssOptions = _.defaultsDeep({}, postcssOptions, ssbConfig.postcssOptions);
 }
 
 export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
