@@ -36,7 +36,7 @@
     "dotenv": "^16.0.3",
     "dotenv-expand": "^10.0.0",
     "ejs": "^3.1.9",
-    "eslint": "^8.36.0",
+    "eslint": "^8.37.0",
     "file-loader": "^6.2.0",
     "filesize": "^10.0.6",
     "find-pkg": "^2.0.0",
@@ -64,9 +64,9 @@
     "workbox-webpack-plugin": "^6.5.4"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.55.0",
-    "@typescript-eslint/parser": "^5.55.0",
-    "eslint-config-henderea": "1.1.5",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "eslint-config-henderea": "1.1.6",
     "eslint-plugin-import": "^2.27.5"
   },
   "eslintConfig": {
