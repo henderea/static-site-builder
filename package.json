@@ -47,7 +47,6 @@
     "mini-css-extract-plugin": "^2.7.5",
     "moment": "^2.29.4",
     "moment-locales-webpack-plugin": "^1.2.0",
-    "node-sass": "^8.0.0",
     "postcss-loader": "^7.1.0",
     "postcss-preset-env": "^8.2.0",
     "recursive-readdir": "^2.2.3",
@@ -66,7 +65,8 @@
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
     "eslint-config-henderea": "1.1.6",
-    "eslint-plugin-import": "^2.27.5"
+    "eslint-plugin-import": "^2.27.5",
+    "sass": "^1.69.6"
   },
   "eslintConfig": {
     "extends": "henderea"
