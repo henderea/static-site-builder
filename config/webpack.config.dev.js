@@ -152,7 +152,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
     ),
     extensions: ['.js', '.ts', '.json', '.jsx', '.tsx'],
     plugins: resolvePlugins,
-    roots: [paths.appPath, paths.publicDir],
+    roots: [paths.appPath/*, paths.publicDir*/],
   },
   module: {
     strictExportPresence: true,
