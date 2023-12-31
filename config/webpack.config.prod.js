@@ -274,7 +274,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
           ...extraLoaders,
           {
             test: /\.ts$/,
-            exclude: [/[/\\\\]node_modules[/\\\\]/, paths.publicDir],
+            exclude: [/[/\\\\]node_modules[/\\\\]/, /[/\\\\]public[/\\\\]/],
             use: [
               {
                 loader: require.resolve('ts-loader'),
@@ -286,7 +286,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
           },
           {
             test: /\.js$/,
-            exclude: [/[/\\\\]node_modules[/\\\\]/, paths.publicDir],
+            exclude: [/[/\\\\]node_modules[/\\\\]/, /[/\\\\]public[/\\\\]/],
             use: [
               require.resolve('thread-loader'),
               {
@@ -301,7 +301,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
           },
           {
             test: /\.js$/,
-            exclude: [paths.publicDir],
+            exclude: [/[/\\\\]public[/\\\\]/],
             use: [
               require.resolve('thread-loader'),
               {
@@ -320,7 +320,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
           },
           {
             test: /\.css$/,
-            exclude: [paths.publicDir],
+            exclude: [/[/\\\\]public[/\\\\]/],
             use: [
               MiniCssExtractPlugin.loader,
               {
@@ -340,7 +340,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
           },
           {
             test: /\.scss$/,
-            exclude: [paths.publicDir],
+            exclude: [/[/\\\\]public[/\\\\]/],
             use: [
               MiniCssExtractPlugin.loader,
               {
@@ -374,7 +374,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
             // its runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpack's internal loaders.
-            exclude: [/\.jsx?$/, /\.tsx?$/, /\.svg$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/, paths.publicDir],
+            exclude: [/\.jsx?$/, /\.tsx?$/, /\.svg$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/, /[/\\\\]public[/\\\\]/],
             options: {
               name: '[name].[ext]'
             }
