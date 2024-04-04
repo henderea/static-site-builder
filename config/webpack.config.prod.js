@@ -114,30 +114,35 @@ const plugins = [
   new MiniCssExtractPlugin({
     filename: cssFilename
   }),
-  new WebpackManifestPlugin({
-    fileName: 'asset-manifest.json',
-    publicPath,
-    filter(file) {
-      if(/^[/]?[.]{2}[/]?/.test(file.path)) { return false; }
-      if(/\.ts$/.test(file.path)) { return false; }
-      if(/(^|[/])\./.test(file.name)) { return false; }
-      return true;
-    }
-  }),
-  new GenerateSW({
-    // Don't precache sourcemaps (they're large) and build asset manifest:
-    exclude: [/\.map$/, /asset-manifest\.json$/, /^[/]?[.]{2}/, /.ts$/],
-    // `navigateFallback` and `navigateFallbackWhitelist` are disabled by default; see
-    // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#service-worker-considerations
-    navigateFallback: publicUrl + '/index.html',
-    navigateFallbackDenylist: [/^\/_/],
-    additionalManifestEntries,
-    cleanupOutdatedCaches: true,
-    clientsClaim: true,
-    skipWaiting: true,
-    runtimeCaching,
-  }),
 ];
+
+if(ssbConfig.disableSW !== true) {
+  plugins.push(
+    new WebpackManifestPlugin({
+      fileName: 'asset-manifest.json',
+      publicPath,
+      filter(file) {
+        if(/^[/]?[.]{2}[/]?/.test(file.path)) { return false; }
+        if(/\.ts$/.test(file.path)) { return false; }
+        if(/(^|[/])\./.test(file.name)) { return false; }
+        return true;
+      }
+    }),
+    new GenerateSW({
+      // Don't precache sourcemaps (they're large) and build asset manifest:
+      exclude: [/\.map$/, /asset-manifest\.json$/, /^[/]?[.]{2}/, /.ts$/],
+      // `navigateFallback` and `navigateFallbackWhitelist` are disabled by default; see
+      // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#service-worker-considerations
+      navigateFallback: publicUrl + '/index.html',
+      navigateFallbackDenylist: [/^\/_/],
+      additionalManifestEntries,
+      cleanupOutdatedCaches: true,
+      clientsClaim: true,
+      skipWaiting: true,
+      runtimeCaching,
+    })
+  );
+}
 
 if(ssbConfig.plugins && _.isArray(ssbConfig.plugins)) {
   plugins.push(...ssbConfig.plugins);
