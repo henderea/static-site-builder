@@ -88,7 +88,8 @@ const copyPatterns = [];
 if(fs.existsSync(paths.publicDir)) {
   copyPatterns.push({
     from: paths.publicDir,
-    to: paths.appBuild
+    to: paths.appBuild,
+    info: { minimized: true }
   });
 }
 
