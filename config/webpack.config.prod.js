@@ -264,7 +264,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
       // It is guaranteed to exist because we tweak it in `env.js`
       process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
     ),
-    extensions: ['.js', '.ts', '.json', '.jsx', '.tsx'],
+    extensions: ['.js', '.cjs', '.mjs', '.ts', '.json', '.jsx', '.tsx'],
     plugins: resolvePlugins,
     roots: [paths.appPath, paths.publicDir],
   },
@@ -272,7 +272,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
     strictExportPresence: true,
     rules: [
       {
-        test: /\.[tj]s$/,
+        test: /\.(t|[cm]?j)s$/,
         parser: { requireEnsure: false }
       },
       {
@@ -291,7 +291,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
             ]
           },
           {
-            test: /\.js$/,
+            test: /\.[cm]?js$/,
             exclude: [/[/\\\\]node_modules[/\\\\]/],
             use: [
               require.resolve('thread-loader'),
@@ -306,7 +306,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
             ]
           },
           {
-            test: /\.js$/,
+            test: /\.[cm]?js$/,
             use: [
               require.resolve('thread-loader'),
               {
@@ -377,7 +377,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
             // its runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpack's internal loaders.
-            exclude: [/\.jsx?$/, /\.tsx?$/, /\.svg$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/],
+            exclude: [/\.[cm]?jsx?$/, /\.tsx?$/, /\.svg$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/],
             options: {
               name: '[name].[ext]'
             }
