@@ -34,7 +34,7 @@ export default function printBuildError(err) {
         ),
         '\n'
       );
-    } catch (ignored) {
+    } catch (_ignored) {
       console.log('Failed to minify the bundle.', err);
     }
     console.log('Read more here: http://bit.ly/CRA-build-minify');

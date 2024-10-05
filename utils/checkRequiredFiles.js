@@ -19,7 +19,7 @@ export default function checkRequiredFiles(files) {
       fs.accessSync(filePath, fs.F_OK);
     });
     return true;
-  } catch (err) {
+  } catch (_err) {
     var dirName = path.dirname(currentFilePath);
     var fileName = path.basename(currentFilePath);
     console.log(chalk.red('Could not find a required file.'));
