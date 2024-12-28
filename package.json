@@ -54,6 +54,7 @@
     "sass-loader": "^16.0.4",
     "strip-ansi": "^7.1.0",
     "style-loader": "^4.0.0",
+    "terser-webpack-plugin": "^5.3.11",
     "thread-loader": "^4.0.4",
     "ts-loader": "^9.5.1",
     "tsconfig-paths-webpack-plugin": "^4.2.0",

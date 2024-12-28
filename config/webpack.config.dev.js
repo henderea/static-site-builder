@@ -6,6 +6,7 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 import getClientEnvironment from './env.js';
 import * as paths from './paths.js';
 import _ from 'lodash';
@@ -246,7 +247,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
             // its runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpack's internal loaders.
-            exclude: [/\.[cm]?jsx?$/, /\.tsx?$/, /\.svg$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/],
+            exclude: [/\.[cm]?jsx?$/, /\.tsx?$/, /\.svg$/, /\.html$/, /\.ejs$/, /\.hbs$/, /\.json$/, /^$/],
             options: {
               name: '[name].[ext]'
             }
@@ -254,6 +255,11 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
         ]
       }
     ]
+  },
+  optimization: {
+    minimizer: [new TerserPlugin({
+      extractComments: false
+    })]
   },
   plugins,
   performance: {
