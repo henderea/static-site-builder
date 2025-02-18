@@ -51,7 +51,7 @@
     "postcss-preset-env": "^10.1.4",
     "recursive-readdir": "^2.2.3",
     "sass": "^1.85.0",
-    "sass-loader": "^16.0.4",
+    "sass-loader": "^16.0.5",
     "strip-ansi": "^7.1.0",
     "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.11",
