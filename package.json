@@ -34,7 +34,7 @@
     "cross-spawn": "^7.0.6",
     "css-loader": "^7.1.2",
     "dotenv": "^16.5.0",
-    "dotenv-expand": "^12.0.1",
+    "dotenv-expand": "^12.0.2",
     "ejs": "^3.1.10",
     "file-loader": "^6.2.0",
     "filesize": "^10.1.6",
@@ -58,7 +58,7 @@
     "thread-loader": "^4.0.4",
     "ts-loader": "^9.5.2",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
-    "webpack": "^5.99.5",
+    "webpack": "^5.99.6",
     "webpack-manifest-plugin": "^5.0.1",
     "workbox-webpack-plugin": "^7.3.0"
   },
