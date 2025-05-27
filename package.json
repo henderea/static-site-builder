@@ -26,7 +26,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@babel/core": "^7.27.1",
+    "@babel/core": "^7.27.3",
     "babel-loader": "^10.0.0",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "chalk": "^5.4.1",
@@ -48,7 +48,7 @@
     "moment": "^2.30.1",
     "moment-locales-webpack-plugin": "^1.2.0",
     "postcss-loader": "^8.1.1",
-    "postcss-preset-env": "^10.1.6",
+    "postcss-preset-env": "^10.2.0",
     "recursive-readdir": "^2.2.3",
     "sass": "^1.89.0",
     "sass-loader": "^16.0.5",
