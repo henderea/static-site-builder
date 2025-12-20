@@ -242,7 +242,7 @@ if(ssbConfig.extraLoaders && _.isArray(ssbConfig.extraLoaders)) {
 }
 
 let postcssOptions = {
-  plugins: ['postcss-preset-env']
+  plugins: [require.resolve('postcss-preset-env'), require.resolve('cssnano')]
 };
 
 if(ssbConfig.postcssOptions && _.isPlainObject(ssbConfig.postcssOptions)) {
@@ -302,6 +302,8 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
                   babelrc: false,
                   compact: true,
                   highlightCode: true,
+                  presets: [require.resolve('@babel/preset-env')],
+                  plugins: [[require.resolve('@babel/plugin-transform-runtime'), { regenerator: true }]]
                 },
               },
             ]
@@ -314,12 +316,14 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
                 loader: require.resolve('babel-loader'),
                 options: {
                   babelrc: false,
-                  compact: false,
+                  compact: true,
                   // This is a feature of `babel-loader` for webpack (not Babel itself).
                   // It enables caching results in ./node_modules/.cache/babel-loader/
                   // directory for faster rebuilds.
                   cacheDirectory: true,
                   highlightCode: true,
+                  presets: [require.resolve('@babel/preset-env')],
+                  plugins: [[require.resolve('@babel/plugin-transform-runtime'), { regenerator: true }]]
                 },
               },
             ]
@@ -329,13 +333,13 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
             use: [
               MiniCssExtractPlugin.loader,
               {
-                loader: 'css-loader',
+                loader: require.resolve('css-loader'),
                 options: {
                   sourceMap: true,
                 }
               },
               {
-                loader: 'postcss-loader',
+                loader: require.resolve('postcss-loader'),
                 options: {
                   postcssOptions,
                   sourceMap: true
@@ -348,21 +352,21 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
             use: [
               MiniCssExtractPlugin.loader,
               {
-                loader: 'css-loader',
+                loader: require.resolve('css-loader'),
                 options: {
                   importLoaders: 1,
                   sourceMap: true,
                 }
               },
               {
-                loader: 'postcss-loader',
+                loader: require.resolve('postcss-loader'),
                 options: {
                   postcssOptions,
                   sourceMap: true
                 }
               },
               {
-                loader: 'sass-loader',
+                loader: require.resolve('sass-loader'),
                 options: {
                   sassOptions: {
                     outputStyle: 'compressed'

@@ -129,7 +129,7 @@ if(ssbConfig.extraLoaders && _.isArray(ssbConfig.extraLoaders)) {
 }
 
 let postcssOptions = {
-  plugins: ['postcss-preset-env']
+  plugins: [require.resolve('postcss-preset-env')]
 };
 
 if(ssbConfig.postcssOptions && _.isPlainObject(ssbConfig.postcssOptions)) {
@@ -187,11 +187,14 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
                 loader: require.resolve('babel-loader'),
                 options: {
                   babelrc: false,
+                  compact: false,
                   // This is a feature of `babel-loader` for webpack (not Babel itself).
                   // It enables caching results in ./node_modules/.cache/babel-loader/
                   // directory for faster rebuilds.
                   cacheDirectory: true,
                   highlightCode: true,
+                  presets: [require.resolve('@babel/preset-env')],
+                  plugins: [[require.resolve('@babel/plugin-transform-runtime'), { regenerator: true }]]
                 },
               },
             ]
@@ -210,6 +213,8 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
                   // directory for faster rebuilds.
                   cacheDirectory: true,
                   highlightCode: true,
+                  presets: [require.resolve('@babel/preset-env')],
+                  plugins: [[require.resolve('@babel/plugin-transform-runtime'), { regenerator: true }]]
                 },
               },
             ]
@@ -217,10 +222,10 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
           {
             test: /\.css$/,
             use: [
-              'style-loader',
-              'css-loader',
+              require.resolve('style-loader'),
+              require.resolve('css-loader'),
               {
-                loader: 'postcss-loader',
+                loader: require.resolve('postcss-loader'),
                 options: {
                   postcssOptions
                 }
@@ -230,15 +235,15 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
           {
             test: /\.scss$/,
             use: [
-              'style-loader',
-              'css-loader',
+              require.resolve('style-loader'),
+              require.resolve('css-loader'),
               {
-                loader: 'postcss-loader',
+                loader: require.resolve('postcss-loader'),
                 options: {
                   postcssOptions
                 }
               },
-              'sass-loader'
+              require.resolve('sass-loader')
             ]
           },
           {
