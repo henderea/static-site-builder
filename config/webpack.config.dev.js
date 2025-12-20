@@ -223,11 +223,17 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
             test: /\.css$/,
             use: [
               require.resolve('style-loader'),
-              require.resolve('css-loader'),
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  sourceMap: true,
+                }
+              },
               {
                 loader: require.resolve('postcss-loader'),
                 options: {
-                  postcssOptions
+                  postcssOptions,
+                  sourceMap: true
                 }
               }
             ]
@@ -236,14 +242,27 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
             test: /\.scss$/,
             use: [
               require.resolve('style-loader'),
-              require.resolve('css-loader'),
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1,
+                  sourceMap: true
+                }
+              },
               {
                 loader: require.resolve('postcss-loader'),
                 options: {
-                  postcssOptions
+                  postcssOptions,
+                  sourceMap: true
                 }
               },
-              require.resolve('sass-loader')
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  implementation: require.resolve('sass'),
+                  sourceMap: true
+                }
+              }
             ]
           },
           {

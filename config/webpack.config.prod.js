@@ -355,7 +355,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
                 loader: require.resolve('css-loader'),
                 options: {
                   importLoaders: 1,
-                  sourceMap: true,
+                  sourceMap: true
                 }
               },
               {
@@ -371,6 +371,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
                   sassOptions: {
                     outputStyle: 'compressed'
                   },
+                  implementation: require.resolve('sass'),
                   sourceMap: true
                 }
               }
