@@ -69,14 +69,14 @@
     "workbox-webpack-plugin": "^7.4.0"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^5.6.1",
-    "@typescript-eslint/eslint-plugin": "^8.51.0",
-    "@typescript-eslint/parser": "^8.51.0",
+    "@stylistic/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
     "eslint": "^9.39.2",
-    "eslint-config-henderea": "^2.0.96",
+    "eslint-config-henderea": "^2.0.97",
     "eslint-plugin-import": "^2.32.0",
     "globals": "^17.0.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.51.0"
+    "typescript-eslint": "^8.52.0"
   }
 }
