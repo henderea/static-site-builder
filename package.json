@@ -73,10 +73,10 @@
     "@typescript-eslint/eslint-plugin": "^8.58.2",
     "@typescript-eslint/parser": "^8.58.2",
     "eslint": "^9.39.4",
-    "eslint-config-henderea": "^2.0.120",
+    "eslint-config-henderea": "^2.0.122",
     "eslint-plugin-import": "^2.32.0",
     "globals": "^17.5.0",
-    "typescript": "^6.0.2",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.58.2"
   }
 }
