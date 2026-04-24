@@ -70,13 +70,13 @@
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@typescript-eslint/eslint-plugin": "^8.58.2",
-    "@typescript-eslint/parser": "^8.58.2",
+    "@typescript-eslint/eslint-plugin": "^8.59.0",
+    "@typescript-eslint/parser": "^8.59.0",
     "eslint": "^9.39.4",
-    "eslint-config-henderea": "^2.0.122",
+    "eslint-config-henderea": "^2.0.123",
     "eslint-plugin-import": "^2.32.0",
     "globals": "^17.5.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.58.2"
+    "typescript-eslint": "^8.59.0"
   }
 }
