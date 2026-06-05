@@ -43,8 +43,12 @@ measureFileSizesBeforeBuild(paths.appBuild)
     // Start the webpack build
     return build(previousFileSizes,
       ({ stats, previousFileSizes, warnings }) => {
+        const startTime = stats.compilation.startTime;
+        const endTime = stats.compilation.endTime;
+        const totalDuration = endTime - startTime;
+        const durationDisplay = totalDuration < 1000 ? `${totalDuration} ms` : `${totalDuration / 1000.0} s`;
         if(warnings.length) {
-          console.log(chalk.yellow('Compiled with warnings.\n'));
+          console.log(`${chalk.yellow('Compiled with warnings in')} ${chalk.bold(durationDisplay)}\n`);
           console.log(warnings.join('\n\n'));
           console.log(
             '\nSearch for the ' +
@@ -57,7 +61,7 @@ measureFileSizesBeforeBuild(paths.appBuild)
                         ' to the line before.\n'
           );
         } else {
-          console.log(chalk.green('Compiled successfully.\n'));
+          console.log(`${chalk.green('Compiled successfully in')} ${chalk.bold(durationDisplay)}\n`);
         }
 
         console.log('File sizes after gzip:\n');
@@ -83,7 +87,7 @@ measureFileSizesBeforeBuild(paths.appBuild)
 
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes, resolve, reject) {
-  let compiler = webpack(config);
+  const compiler = webpack(config);
   compiler.watch({}, (err, stats) => {
     if(err) {
       return reject(err);

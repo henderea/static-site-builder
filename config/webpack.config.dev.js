@@ -11,6 +11,7 @@ import getClientEnvironment from './env.js';
 import * as paths from './paths.js';
 import _ from 'lodash';
 import { createRequire } from 'module';
+import chalk from 'chalk';
 
 const require = createRequire(import.meta.url);
 
@@ -30,7 +31,7 @@ let env = getClientEnvironment(publicUrl);
 let ssbConfig = {};
 
 if(fs.existsSync(paths.ssbConfig)) {
-  let ssbConfigObj = require(paths.ssbConfig);
+  const ssbConfigObj = require(paths.ssbConfig);
   if(ssbConfigObj) {
     if(_.isFunction(ssbConfigObj)) {
       ssbConfig = ssbConfigObj(env.raw, 'development', { publicUrl, ...paths });
@@ -70,6 +71,11 @@ if(ssbConfig.htmlWebpackPluginOptions && _.isPlainObject(ssbConfig.htmlWebpackPl
   htmlWebpackPluginOptions = _.extend({}, htmlWebpackPluginOptions, ssbConfig.htmlWebpackPluginOptions);
 }
 
+function box(text, boxFormat, textFormat) {
+  const border = boxFormat(`+-${'-'.repeat(text.length)}-+`);
+  return `${border}\n${boxFormat('| ')}${textFormat(text)}${boxFormat(' |')}\n${border}`;
+}
+
 const plugins = [
   new webpack.DefinePlugin(env.stringified),
   new HtmlWebpackPlugin(htmlWebpackPluginOptions),
@@ -78,6 +84,22 @@ const plugins = [
     fileName: 'asset-manifest.json',
     publicPath: publicPath
   }),
+  {
+    apply(compiler) {
+      const bld = chalk.bold;
+      const bgr = chalk.bold.green;
+      let first = true;
+      // Taps into the watchRun hook which fires when a watch build begins
+      compiler.hooks.watchRun.tap('WatchStartLoggerPlugin', () => {
+        if(first) {
+          first = false;
+          console.log(`\n${box('Starting initial build...', bld, bgr)}\n`);
+          return;
+        }
+        console.log(`\n${box('File change detected. Starting new build...', bld, bgr)}\n`);
+      });
+    }
+  },
 ];
 
 if(ssbConfig.plugins && _.isArray(ssbConfig.plugins)) {

@@ -21,14 +21,14 @@ const require = createRequire(import.meta.url);
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
-let publicPath = paths.servedPath;
+const publicPath = paths.servedPath;
 // Some apps do not use client-side routing with pushState.
 // For these, "homepage" can be set to "." to enable relative asset paths.
 // const shouldUseRelativeAssetPaths = publicPath === './';
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
-let publicUrl = publicPath.slice(0, -1);
+const publicUrl = publicPath.slice(0, -1);
 
 let env = getClientEnvironment(publicUrl);
 
@@ -45,7 +45,7 @@ if(fs.existsSync(paths.publicDir)) {
 let ssbConfig = {};
 
 if(fs.existsSync(paths.ssbConfig)) {
-  let ssbConfigObj = require(paths.ssbConfig);
+  const ssbConfigObj = require(paths.ssbConfig);
   if(ssbConfigObj) {
     if(_.isFunction(ssbConfigObj)) {
       ssbConfig = ssbConfigObj(env.raw, 'production', { publicUrl, ...paths });
@@ -206,14 +206,14 @@ const getSizeValue = (val) => {
   if(_.isNil(val) || val === false) { return null; }
   if(_.isNumber(val) && !_.isNaN(val)) { return Math.round(val); }
   if(_.isString(val)) {
-    let m = val.match(/^(\d+(?:\.\d+)?|\.\d+)([bkmg])?$/i);
+    const m = val.match(/^(\d+(?:\.\d+)?|\.\d+)([bkmg])?$/i);
     if(m) {
-      let num = parseFloat(m[1]);
+      const num = parseFloat(m[1]);
       if(!_.isNaN(num)) {
         let unit = m[2];
         if(!unit || unit === '') { unit = 'b'; }
         unit = unit.toLowerCase();
-        let unitIndex = 'bkmg'.indexOf(unit);
+        const unitIndex = 'bkmg'.indexOf(unit);
         if(unitIndex >= 0 || unitIndex <= 3) {
           return Math.round(num * Math.pow(1024, unitIndex));
         }
@@ -223,13 +223,13 @@ const getSizeValue = (val) => {
   return null;
 };
 
-let maxEntrypointSize = getSizeValue(config && config.maxEntrypointSize);
+const maxEntrypointSize = getSizeValue(config && config.maxEntrypointSize);
 
 if(config && maxEntrypointSize) {
   performance.maxEntrypointSize = maxEntrypointSize;
 }
 
-let maxAssetSize = getSizeValue(config && config.maxAssetSize);
+const maxAssetSize = getSizeValue(config && config.maxAssetSize);
 
 if(config && maxAssetSize) {
   performance.maxAssetSize = maxAssetSize;
