@@ -371,7 +371,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
                   sassOptions: {
                     outputStyle: 'compressed'
                   },
-                  implementation: require.resolve('sass'),
+                  implementation: require('sass'),
                   sourceMap: true
                 }
               }

@@ -281,7 +281,7 @@ export default _.defaultsDeep({}, ssbConfig.webpack || {}, {
               {
                 loader: require.resolve('sass-loader'),
                 options: {
-                  implementation: require.resolve('sass'),
+                  implementation: require('sass'),
                   sourceMap: true
                 }
               }
