@@ -77,7 +77,7 @@ let useYarn = fs.existsSync(
   path.join(appPath, 'yarn.lock')
 );
 
-let checkForMonorepo = true;
+const checkForMonorepo = true;
 
 if(checkForMonorepo) {
   // if app is in a monorepo (lerna or yarn workspace), treat other packages in
