@@ -43,7 +43,7 @@
     "dotenv-expand": "^13.0.0",
     "ejs": "^5.0.2",
     "file-loader": "^6.2.0",
-    "filesize": "^11.0.19",
+    "filesize": "^11.0.22",
     "find-pkg": "^2.0.0",
     "globby": "^16.2.1",
     "gzip-size": "^7.0.0",
