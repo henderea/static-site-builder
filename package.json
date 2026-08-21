@@ -76,10 +76,14 @@
     "eslint-config-henderea": "^2.0.130",
     "eslint-plugin-import": "^2.32.0",
     "globals": "^17.7.0",
+    "install-peerdeps": "^3.0.7",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.65.0"
   },
   "allowScripts": {
     "@parcel/watcher@2.6.0": true
+  },
+  "patchedDependencies": {
+    "install-peerdeps@3.0.7": "patches/install-peerdeps@3.0.7.patch"
   }
 }

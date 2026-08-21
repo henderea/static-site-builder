@@ -1,0 +1,20 @@
+--- a/lib/install-peerdeps.js	
++++ b/lib/install-peerdeps.js	
+@@ -143,9 +143,16 @@
+     return spawnCommand(packageManager, args).then(response => {
+       const parsed = JSON.parse(response);
+ 
+       // Yarn 1 returns with an extra nested { data } that NPM doesn't
+-      return parsed.data || parsed;
++      const unwrapped = parsed.data || parsed;
++
++      // npm >= 12 always wraps `npm info --json` output in an array, even for
++      // an exact version. The last entry is the newest matching one.
++      if (Array.isArray(unwrapped)) {
++        return unwrapped[unwrapped.length - 1];
++      }
++      return unwrapped;
+     });
+   });
+ }
+ 
