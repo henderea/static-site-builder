@@ -70,15 +70,15 @@
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@typescript-eslint/eslint-plugin": "^8.67.0",
-    "@typescript-eslint/parser": "^8.67.0",
+    "@typescript-eslint/eslint-plugin": "^8.70.1",
+    "@typescript-eslint/parser": "^8.70.1",
     "eslint": "^9.39.5",
-    "eslint-config-henderea": "^2.0.131",
+    "eslint-config-henderea": "^2.0.132",
     "eslint-plugin-import": "^2.32.0",
-    "globals": "^17.11.0",
+    "globals": "^17.12.0",
     "install-peerdeps": "^3.0.7",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.67.0"
+    "typescript-eslint": "^8.70.1"
   },
   "allowScripts": {
     "@parcel/watcher@2.6.0": true,
