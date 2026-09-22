@@ -81,7 +81,8 @@
     "typescript-eslint": "^8.67.0"
   },
   "allowScripts": {
-    "@parcel/watcher@2.6.0": true
+    "@parcel/watcher@2.6.0": true,
+    "core-js@2.6.12": true
   },
   "patchedDependencies": {
     "install-peerdeps@3.0.7": "patches/install-peerdeps@3.0.7.patch"
