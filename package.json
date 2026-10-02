@@ -69,11 +69,12 @@
     "workbox-webpack-plugin": "^7.4.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@typescript-eslint/eslint-plugin": "^8.71.0",
     "@typescript-eslint/parser": "^8.71.0",
-    "eslint": "^9.39.5",
-    "eslint-config-henderea": "^2.0.133",
+    "eslint": "^10.11.0",
+    "eslint-config-henderea": "^3.0.0",
     "eslint-plugin-import": "^2.32.0",
     "globals": "^17.13.0",
     "install-peerdeps": "^3.0.7",
