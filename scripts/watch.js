@@ -25,7 +25,7 @@ import * as FileSizeReporter from '../utils/FileSizeReporter.js';
 import printBuildError from '../utils/printBuildError.js';
 
 const measureFileSizesBeforeBuild =
-    FileSizeReporter.measureFileSizesBeforeBuild;
+  FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
